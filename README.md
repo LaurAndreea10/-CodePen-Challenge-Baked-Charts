@@ -2,7 +2,7 @@
 
 An accessible, bilingual interactive data-visualization experiment created for the CodePen **Baked Charts** challenge.
 
-[Live demo](https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/) · [Portfolio](https://laurandreea10.github.io/codepen-portfolio/)
+[Game portal](https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/portal.html) · [Live demo](https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/) · [Portfolio](https://laurandreea10.github.io/codepen-portfolio/)
 
 ## Română
 
@@ -45,6 +45,10 @@ An accessible, bilingual interactive data-visualization experiment created for t
 - manual and system reduced-motion support;
 - persistent preferences using localStorage;
 - descriptive SVG labels and no color-only information.
+
+## Sock Sort Rush
+
+The integrated accessible game includes progressive levels, difficulty modes, score, streak, local best score, missions, badges, keyboard shortcuts, touch controls, haptic feedback, optional sound and automatic single-switch scanning.
 
 ## Files
 
