@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/sitemap.xml
