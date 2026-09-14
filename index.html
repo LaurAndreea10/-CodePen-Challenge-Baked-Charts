@@ -8,7 +8,7 @@
     />
     <meta
       name="description"
-      content="A playful visual investigation into the mystery of disappearing socks."
+      content="An interactive investigation into the mystery of disappearing socks."
     />
 
     <link rel="stylesheet" href="./style.css" />
@@ -17,13 +17,12 @@
   </head>
 
   <body>
-    <a class="skip-link" href="#chart">Skip to chart</a>
+    <a class="skip-link" href="#mainChart">Skip to chart</a>
 
-    <div class="background" aria-hidden="true">
+    <div class="background-effects" aria-hidden="true">
+      <span class="grid"></span>
       <span class="blob blob-one"></span>
       <span class="blob blob-two"></span>
-      <span class="grid"></span>
-
       <span class="floating-sock sock-one">🧦</span>
       <span class="floating-sock sock-two">🧦</span>
       <span class="floating-sock sock-three">🧦</span>
@@ -47,9 +46,22 @@
             disappear after entering the laundry system.
           </p>
 
-          <div class="status">
-            <span class="status-dot" aria-hidden="true"></span>
-            Laundry mystery currently active
+          <div class="hero-actions">
+            <span class="status">
+              <span class="status-dot" aria-hidden="true"></span>
+              Laundry mystery active
+            </span>
+
+            <button
+              class="theme-button"
+              id="themeButton"
+              type="button"
+              aria-label="Switch to dark theme"
+              aria-pressed="false"
+            >
+              <span aria-hidden="true">🌙</span>
+              <span class="theme-text">Dark mode</span>
+            </button>
           </div>
         </div>
 
@@ -67,16 +79,38 @@
         </div>
       </header>
 
-      <section class="dashboard" aria-labelledby="dashboard-title">
-        <h2 class="visually-hidden" id="dashboard-title">
-          Sock disappearance dashboard
-        </h2>
+      <section class="toolbar" aria-label="Report controls">
+        <div class="range-tabs" role="group" aria-label="Reporting period">
+          <button class="range-button" data-range="week" type="button">
+            7 days
+          </button>
 
-        <article class="chart-card" id="chart">
+          <button
+            class="range-button active"
+            data-range="month"
+            type="button"
+          >
+            30 days
+          </button>
+
+          <button class="range-button" data-range="year" type="button">
+            1 year
+          </button>
+        </div>
+
+        <button class="bake-button" id="bakeButton" type="button">
+          <span aria-hidden="true">✨</span>
+          Bake new data
+        </button>
+      </section>
+
+      <section class="dashboard">
+        <article class="chart-card" id="mainChart">
           <div class="card-header">
             <div>
               <p class="label">Laundry intelligence</p>
               <h2>Where my socks go</h2>
+              <p class="period" id="periodLabel">Last 30 days</p>
             </div>
 
             <span class="live-pill">
@@ -85,65 +119,69 @@
             </span>
           </div>
 
-          <div class="chart-frame">
-            <div class="chart-glow" aria-hidden="true"></div>
+          <div class="chart-content">
+            <div class="chart-wrap">
+              <svg
+                class="pie"
+                viewBox="0 0 100 100"
+                role="img"
+                aria-labelledby="chartTitle chartDescription"
+              >
+                <title id="chartTitle">Where my socks go</title>
 
+                <desc id="chartDescription">
+                  Interactive donut chart showing the distribution of
+                  tracked socks.
+                </desc>
+
+                <circle
+                  class="chart-track"
+                  r="25"
+                  cx="50"
+                  cy="50"
+                ></circle>
+
+                <g
+                  id="chartSlices"
+                  fill="none"
+                  stroke-width="50"
+                  transform="rotate(-90 50 50)"
+                ></g>
+
+                <circle
+                  class="pie-center"
+                  r="17"
+                  cx="50"
+                  cy="50"
+                ></circle>
+              </svg>
+
+              <div class="center-label" aria-hidden="true">
+                <span class="pct" id="centerValue">100%</span>
+                <span class="cap" id="centerCaption">
+                  socks accounted for
+                </span>
+              </div>
+            </div>
+
+            <ul class="legend" id="legend"></ul>
+          </div>
+
+          <p
+            class="sr-only"
+            id="chartAnnouncement"
+            aria-live="polite"
+          >
+            All sock categories are displayed.
+          </p>
+
+          <noscript>
             <img
+              class="fallback-chart"
               src="pie.svg"
-              alt="Pie chart titled Where my socks go. 40 percent are still paired in the drawer, 25 percent enter the dryer dimension, 20 percent are under the couch, and 15 percent are in the dog's secret stash."
+              alt="Pie chart showing where missing socks go."
             />
-
-            <div class="chart-center" aria-hidden="true">
-              <strong>40</strong>
-              <span>socks tracked</span>
-            </div>
-          </div>
-
-          <div class="legend" aria-label="Chart legend">
-            <div class="legend-item orange">
-              <span class="legend-icon" aria-hidden="true">🧦</span>
-
-              <div>
-                <strong>Still paired</strong>
-                <small>Safe in the drawer</small>
-              </div>
-
-              <b>40%</b>
-            </div>
-
-            <div class="legend-item yellow">
-              <span class="legend-icon" aria-hidden="true">🌀</span>
-
-              <div>
-                <strong>Dryer dimension</strong>
-                <small>Portal activity</small>
-              </div>
-
-              <b>25%</b>
-            </div>
-
-            <div class="legend-item purple">
-              <span class="legend-icon" aria-hidden="true">🛋️</span>
-
-              <div>
-                <strong>Under the couch</strong>
-                <small>Dust ecosystem</small>
-              </div>
-
-              <b>20%</b>
-            </div>
-
-            <div class="legend-item green">
-              <span class="legend-icon" aria-hidden="true">🐕</span>
-
-              <div>
-                <strong>Dog's secret stash</strong>
-                <small>Highly suspicious</small>
-              </div>
-
-              <b>15%</b>
-            </div>
-          </div>
+          </noscript>
         </article>
 
         <aside class="metrics" aria-label="Laundry statistics">
@@ -152,7 +190,7 @@
 
             <div>
               <p>Pair survival rate</p>
-              <strong>40%</strong>
+              <strong id="survivalMetric">40%</strong>
               <small>↑ 6% this month</small>
             </div>
           </article>
@@ -162,7 +200,7 @@
 
             <div>
               <p>Dryer portal risk</p>
-              <strong>25%</strong>
+              <strong id="dryerMetric">25%</strong>
               <small class="danger">High probability</small>
             </div>
           </article>
@@ -172,7 +210,7 @@
 
             <div>
               <p>Dog involvement</p>
-              <strong>15%</strong>
+              <strong id="dogMetric">1515%</strong>
               <small class="purple-text">Under investigation</small>
             </div>
           </article>
@@ -184,21 +222,384 @@
 
         <div>
           <p class="label">Freshly baked insight</p>
-          <h2>The dryer dimension is expanding.</h2>
+          <h2 id="insightTitle">The dryer dimension is expanding.</h2>
 
-          <p>
+          <p id="insightText">
             Pair socks immediately after drying and inspect the dog's bed
             before declaring another sock officially lost.
           </p>
         </div>
 
-        <span class="confidence">92% suspicious</span>
+        <span class="confidence" id="confidence">92% suspicious</span>
       </section>
 
       <footer>
         <p>Baked with data, crumbs and suspicious socks.</p>
-        <p>Case #404 · Sock not found</p>
+        <p id="updatedTime">Case #404 · Updated just now</p>
       </footer>
     </main>
+
+    <div
+      class="confetti-layer"
+      id="confettiLayer"
+      aria-hidden="true"
+    ></div>
+
+    <script>
+      const categories = [
+        {
+          name: "Still paired",
+          description: "Safe in the drawer",
+          caption: "still paired",
+          icon: "🧦",
+          color: "#e07a5f"
+        },
+        {
+          name: "Dryer dimension",
+          description: "Portal activity detected",
+          caption: "dryer dimension",
+          icon: "🌀",
+          color: "#8d6a9f"
+        },
+        {
+          name: "Under the couch",
+          description: "Dust ecosystem",
+          caption: "under the couch",
+          icon: "🛋️",
+          color: "#3d9a8b"
+        },
+        {
+          name: "Dog's secret stash",
+          description: "Highly suspicious",
+          caption: "dog's stash",
+          icon: "🐕",
+          color: "#f2a541"
+        }
+      ];
+
+      const reports = {
+        week: {
+          title: "Last 7 days",
+          total: 20,
+          values: [45, 20, 20, 15]
+        },
+        month: {
+          title: "Last 30 days",
+          total: 40,
+          values: [40, 25, 20, 15]
+        },
+        year: {
+          title: "Last 12 months",
+          total: 128,
+          values: [36, 29, 18, 17]
+        }
+      };
+
+      const circumference = 2 * Math.PI * 25;
+
+      const chartSlices = document.querySelector("#chartSlices");
+      const legend = document.querySelector("#legend");
+      const centerValue = document.querySelector("#centerValue");
+      const centerCaption = document.querySelector("#centerCaption");
+      const announcement = document.querySelector("#chartAnnouncement");
+      const periodLabel = document.querySelector("#periodLabel");
+      const survivalMetric = document.querySelector("#survivalMetric");
+      const dryerMetric = document.querySelector("#dryerMetric");
+      const dogMetric = document.querySelector("#dogMetric");
+      const insightTitle = document.querySelector("#insightTitle");
+      const insightText = document.querySelector("#insightText");
+      const confidence = document.querySelector("#confidence");
+      const bakeButton = document.querySelector("#bakeButton");
+      const themeButton = document.querySelector("#themeButton");
+      const confettiLayer = document.querySelector("#confettiLayer");
+
+      let currentRange = "month";
+      let selectedCategory = null;
+
+      function renderChart() {
+        const report = reports[currentRange];
+        let offset = 0;
+
+        chartSlices.replaceChildren();
+        legend.replaceChildren();
+
+        report.values.forEach((value, index) => {
+          const category = categories[index];
+          const segmentLength = (value / 100) * circumference;
+
+          const circle = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "circle"
+          );
+
+          circle.classList.add("slice");
+          circle.dataset.index = index;
+          circle.setAttribute("r", "25");
+          circle.setAttribute("cx", "50");
+          circle.setAttribute("cy", "50");
+          circle.setAttribute("stroke", category.color);
+          circle.setAttribute(
+            "stroke-dasharray",
+            `${Math.max(segmentLength - 1.1, 0)} ${circumference}`
+          );
+          circle.setAttribute("stroke-dashoffset", String(-offset));
+          circle.setAttribute("tabindex", "0");
+          circle.setAttribute("role", "button");
+          circle.setAttribute(
+            "aria-label",
+            `${category.name}: ${value} percent`
+          );
+
+          circle.style.animationDelay = `${index * 140}ms`;
+
+          chartSlices.append(circle);
+
+          const item = document.createElement("li");
+          item.dataset.index = index;
+          item.tabIndex = 0;
+          item.setAttribute("role", "button");
+          item.setAttribute(
+            "aria-label",
+            `Show ${category.name}, ${value} percent`
+          );
+
+          item.innerHTML = `
+            <span
+              class="legend-dot"
+              style="--legend-color:${category.color}"
+            ></span>
+
+            <span class="legend-copy">
+              <strong>${category.icon} ${category.name}</strong>
+              <small>${category.description}</small>
+            </span>
+
+            <b>${value}%</b>
+          `;
+
+          legend.append(item);
+          offset += segmentLength;
+        });
+
+        periodLabel.textContent = report.title;
+        survivalMetric.textContent = `${report.values[0]}%`;
+        dryerMetric.textContent = `${report.values[1]}%`;
+        dogMetric.textContent = `${report.values[3]}%`;
+
+        bindChartEvents();
+        resetSelection();
+        updateInsight();
+      }
+
+      function bindChartEvents() {
+        const slices = [...document.querySelectorAll(".slice")];
+        const items = [...legend.querySelectorAll("li")];
+
+        [...slices, ...items].forEach((element) => {
+          const index = Number(element.dataset.index);
+
+          element.addEventListener("mouseenter", () => {
+            activateCategory(index);
+          });
+
+          element.addEventListener("mouseleave", () => {
+            if (selectedCategory === null) resetSelection();
+          });
+
+          element.addEventListener("focus", () => {
+            activateCategory(index);
+          });
+
+          element.addEventListener("blur", () => {
+            if (selectedCategory === null) resetSelection();
+          });
+
+          element.addEventListener("click", () => {
+            if (selectedCategory === index) {
+              selectedCategory = null;
+              resetSelection();
+            } else {
+              selectedCategory = index;
+              activateCategory(index);
+            }
+          });
+
+          element.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              element.click();
+            }
+
+            if (event.key === "Escape") {
+              selectedCategory = null;
+              resetSelection();
+              element.blur();
+            }
+          });
+        });
+      }
+
+      function activateCategory(index) {
+        const report = reports[currentRange];
+        const category = categories[index];
+        const value = report.values[index];
+        const amount = Math.round((value / 100) * report.total);
+
+        document.querySelectorAll(".slice").forEach((slice, position) => {
+          slice.classList.toggle("active", position === index);
+          slice.classList.toggle("muted", position !== index);
+        });
+
+        legend.querySelectorAll("li").forEach((item, position) => {
+          item.classList.toggle("active", position === index);
+          item.classList.toggle("muted", position !== index);
+        });
+
+        centerValue.textContent = `${value}%`;
+        centerCaption.textContent = category.caption;
+
+        announcement.textContent =
+          `${category.name}: ${value} percent, approximately ` +
+          `${amount} tracked socks. ${category.description}.`;
+      }
+
+      function resetSelection() {
+        document.querySelectorAll(".slice").forEach((slice) => {
+          slice.classList.remove("active", "muted");
+        });
+
+        legend.querySelectorAll("li").forEach((item) => {
+          item.classList.remove("active", "muted");
+        });
+
+        centerValue.textContent = reports[currentRange].total;
+        centerCaption.textContent = "socks tracked";
+        announcement.textContent = "All sock categories are displayed.";
+      }
+
+      function updateInsight() {
+        const values = reports[currentRange].values;
+        const missingValues = values.slice(1);
+        const highestMissing = Math.max(...missingValues);
+        const index = values.indexOf(highestMissing);
+        const category = categories[index];
+
+        insightTitle.textContent = `${category.name} leads the mystery.`;
+
+        insightText.textContent =
+          `${category.description}. It currently accounts for ` +
+          `${highestMissing}% of missing socks. Immediate investigation ` +
+          `and emergency sock pairing are recommended.`;
+
+        confidence.textContent =
+          `${Math.min(99, 65 + highestMissing)}% suspicious`;
+      }
+
+      function randomValues() {
+        const paired = randomNumber(32, 52);
+        const dryer = randomNumber(18, 30);
+        const couch = randomNumber(12, 24);
+        const dog = 100 - paired - dryer - couch;
+
+        if (dog < 8 || dog > 25) return randomValues();
+
+        return [paired, dryer, couch, dog];
+      }
+
+      function randomNumber(minimum, maximum) {
+        return Math.floor(
+          Math.random() * (maximum - minimum + 1) + minimum
+        );
+      }
+
+      function launchConfetti() {
+        if (
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ) {
+          return;
+        }
+
+        const colors = categories.map((category) => category.color);
+
+        for (let index = 0; index < 35; index += 1) {
+          const piece = document.createElement("span");
+
+          piece.className = "confetti";
+          piece.style.left = `${Math.random() * 100}%`;
+          piece.style.background =
+            colors[Math.floor(Math.random() * colors.length)];
+          piece.style.animationDelay = `${Math.random() * 300}ms`;
+
+          confettiLayer.append(piece);
+          piece.addEventListener("animationend", () => piece.remove());
+        }
+      }
+
+      document.querySelectorAll(".range-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          document
+            .querySelector(".range-button.active")
+            ?.classList.remove("active");
+
+          button.classList.add("active");
+          currentRange = button.dataset.range;
+          selectedCategory = null;
+
+          renderChart();
+        });
+      });
+
+      bakeButton.addEventListener("click", () => {
+        reports[currentRange].values = randomValues();
+        selectedCategory = null;
+
+        renderChart();
+        launchConfetti();
+
+        document.querySelector("#updatedTime").textContent =
+          "Case #404 · Freshly baked just now";
+      });
+
+      themeButton.addEventListener("click", () => {
+        const darkMode =
+          document.documentElement.dataset.theme === "dark";
+
+        const newTheme = darkMode ? "light" : "dark";
+
+        document.documentElement.dataset.theme = newTheme;
+        localStorage.setItem("sockspiracy-theme", newTheme);
+
+        themeButton.setAttribute(
+          "aria-pressed",
+          String(newTheme === "dark")
+        );
+
+        themeButton.setAttribute(
+          "aria-label",
+          newTheme === "dark"
+            ? "Switch to light theme"
+            : "Switch to dark theme"
+        );
+
+        themeButton.querySelector("[aria-hidden]").textContent =
+          newTheme === "dark" ? "☀️" : "🌙";
+
+        themeButton.querySelector(".theme-text").textContent =
+          newTheme === "dark" ? "Light mode" : "Dark mode";
+      });
+
+      const savedTheme = localStorage.getItem("sockspiracy-theme");
+
+      if (savedTheme === "dark") {
+        document.documentElement.dataset.theme = "dark";
+        themeButton.setAttribute("aria-pressed", "true");
+        themeButton.setAttribute("aria-label", "Switch to light theme");
+        themeButton.querySelector("[aria-hidden]").textContent = "☀️";
+        themeButton.querySelector(".theme-text").textContent =
+          "Light mode";
+      }
+
+      renderChart();
+    </script>
   </body>
 </html>
