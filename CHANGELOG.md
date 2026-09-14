@@ -5,6 +5,10 @@ All notable changes to **Sockspiracy** are documented here.
 ## 1.0.0 — 2026-09-16
 
 ### Added
+- Sockspiracy Portal combining the analytics dashboard and Sock Sort Rush.
+- Accessible game with difficulty modes, levels, streak, missions and local high score.
+- Keyboard, touch, haptic, sound and automatic switch-scanning controls.
+- Persistent achievements and progress center.
 - Romanian and English interfaces with persistent language preference.
 - Separately indexable English page and reciprocal hreflang metadata.
 - Light, dark, high-contrast, large-text and reduced-motion modes.
