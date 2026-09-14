@@ -52,12 +52,21 @@
       <a class="module green" href="#progress"><span>🏆</span><div><strong data-t="moduleProgress">Centrul de progres</strong><small data-t="moduleProgressText">Recorduri și realizări locale</small></div><b>→</b></a>
     </section>
 
+    <section class="player-profile" aria-labelledby="rankTitle">
+      <div class="rank-orb" aria-hidden="true">🧺</div>
+      <div><p class="kicker" data-x="profile">Profil de sortare</p><h2 id="rankTitle"><span data-x="rank">Rang</span>: <span id="rankName">Începător</span></h2><div class="xp-line"><progress id="xpBar" max="100" value="0">0%</progress><small><span id="xpValue">0</span> XP</small></div></div>
+      <div class="wallet"><small data-x="coins">Monede</small><strong>🪙 <span id="coins">0</span></strong></div>
+      <button class="ghost-button" id="tutorialButton" type="button" data-x="tutorial">Tutorial</button>
+    </section>
+
     <section class="game-shell" id="game" aria-labelledby="gameTitle">
       <div class="game-head">
         <div><p class="kicker" data-t="mission">Misiunea activă</p><h2 id="gameTitle">Sock Sort Rush</h2><p data-t="gameIntro">Trimite fiecare șosetă în sertarul cu simbolul identic.</p></div>
         <div class="game-options">
+          <label><span data-x="mode">Mod</span><select id="gameMode"><option value="classic" data-x="classic">Clasic</option><option value="time" data-x="timeAttack">Contra timp</option><option value="zen" data-x="zen">Zen</option></select></label>
           <label><span data-t="difficulty">Dificultate</span><select id="difficulty"><option value="easy" data-t="easy">Ușor</option><option value="normal" selected data-t="normal">Normal</option><option value="hard" data-t="hard">Greu</option></select></label>
           <button id="sound" type="button" aria-pressed="false"><span aria-hidden="true">🔇</span><span data-t="sound">Sunet</span></button>
+          <button id="pause" type="button" aria-pressed="false"><span aria-hidden="true">⏸</span><span data-x="pause">Pauză</span></button>
           <button id="scan" type="button" aria-pressed="false"><span aria-hidden="true">◉</span><span data-t="scan">Scanare</span></button>
         </div>
       </div>
@@ -76,9 +85,24 @@
         <p id="gameStatus" class="status" role="status" aria-live="polite" data-t="ready">Apasă Start pentru a începe.</p>
         <div class="target" id="target" aria-live="polite"><span id="targetSock" aria-hidden="true">🧦</span><strong id="targetName" data-t="waiting">Așteaptă...</strong></div>
         <div class="baskets" id="baskets" role="group" aria-label="Sertare pentru sortare"></div>
+        <div class="powerups" aria-label="Power-ups">
+          <button type="button" id="freezePower" data-power="freeze"><span aria-hidden="true">❄️</span><strong data-x="freeze">Îngheață timpul</strong><small>10 🪙</small></button>
+          <button type="button" id="hintPower" data-power="hint"><span aria-hidden="true">💡</span><strong data-x="hint">Arată răspunsul</strong><small>6 🪙</small></button>
+          <button type="button" id="shieldPower" data-power="shield"><span aria-hidden="true">🛡️</span><strong data-x="shield">Protecție</strong><small>8 🪙</small></button>
+        </div>
         <p class="help" data-t="help">Folosește tastele 1–4, săgețile și Enter sau atinge un sertar.</p>
         <button class="start" id="start" type="button" data-t="start">Pornește jocul</button>
       </div>
+    </section>
+
+    <section class="daily-section" aria-labelledby="dailyTitle">
+      <div><p class="kicker" data-x="daily">Provocarea zilei</p><h2 id="dailyTitle" data-x="dailyTitle">Daily Drawer Rescue</h2><p id="dailyDescription">Sortează 15 șosete și păstrează un streak de cel puțin 4.</p></div>
+      <div class="daily-reward"><span>🎁</span><strong>+50 XP · +25 🪙</strong><button id="dailyButton" type="button" data-x="dailyStart">Începe provocarea</button></div>
+    </section>
+
+    <section class="stats-section" aria-labelledby="statsTitle">
+      <div><p class="kicker" data-x="career">Carieră</p><h2 id="statsTitle" data-x="stats">Statistici permanente</h2></div>
+      <div class="career-grid"><article><small data-x="games">Jocuri</small><strong id="gamesPlayed">0</strong></article><article><small data-x="sorted">Șosete sortate</small><strong id="totalSorted">0</strong></article><article><small data-x="accuracy">Acuratețe</small><strong id="accuracy">0%</strong></article><article><small data-x="topStreak">Cel mai bun streak</small><strong id="topStreak">0</strong></article></div>
     </section>
 
     <section class="progress-section" id="progress" aria-labelledby="progressTitle">
@@ -91,6 +115,8 @@
       </div>
       <button class="reset" id="resetProgress" type="button" data-t="resetProgress">Resetează progresul jocului</button>
     </section>
+  </main>
+  <dialog id="tutorialDialog" aria-labelledby="tutorialTitle"><div class="dialog-card"><button class="dialog-close" id="closeTutorial" type="button" aria-label="Închide">×</button><p class="kicker" data-x="how">Cum se joacă</p><h2 id="tutorialTitle">Sock Sort Rush</h2><ol><li data-x="step1">Privește culoarea și simbolul șosetei.</li><li data-x="step2">Alege sertarul identic folosind touch, mouse sau tastele 1–4.</li><li data-x="step3">Construiește un streak pentru bonusuri și câștigă monede.</li><li data-x="step4">Folosește power-up-uri când portalul devine prea rapid.</li></ol><button class="start" id="tutorialPlay" type="button" data-t="play">Joacă acum</button></div></dialog>
   </main>
 
   <footer><span>LaurAi · Sockspiracy Portal</span><a href="https://laurandreea10.github.io/codepen-portfolio/">Portfolio</a></footer>
