@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Sockspiracy Portal — Joc accesibil și laborator de date | LaurAi</title>
+  <meta name="description" content="Portal bilingv și accesibil cu joc de sortare a șosetelor, progres, scor, streak și legătură către dashboardul interactiv Sockspiracy.">
+  <meta name="author" content="Laura Andreea Plugaru">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#241a30">
+  <link rel="canonical" href="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/portal.html">
+  <link rel="alternate" hreflang="ro" href="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/portal.html">
+  <link rel="alternate" hreflang="x-default" href="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/portal.html">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sockspiracy Portal">
+  <meta property="og:description" content="Joacă Sock Sort Rush și explorează misterul șosetelor dispărute.">
+  <meta property="og:url" content="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/portal.html">
+  <meta property="og:image" content="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/social-preview.svg">
+  <link rel="stylesheet" href="./portal.css">
+</head>
+<body>
+  <a class="skip" href="#game">Sari la joc</a>
+  <header class="topbar">
+    <a class="brand" href="./portal.html" aria-label="Sockspiracy Portal"><span>🧦</span><strong>SOCKSPIRACY</strong></a>
+    <nav aria-label="Navigare principală">
+      <a href="./index.html" data-t="analysis">Analiză</a>
+      <a href="#game" data-t="game">Joc</a>
+      <a href="#progress" data-t="progress">Progres</a>
+    </nav>
+    <div class="controls">
+      <button id="lang" type="button" aria-label="Switch to English">EN</button>
+      <button id="theme" type="button" aria-label="Schimbă tema" aria-pressed="false">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="kicker" data-t="kicker">Noul centru de comandă al rufelor</p>
+        <h1><span data-t="hero1">Găsește perechea.</span> <em data-t="hero2">Salvează sertarul.</em></h1>
+        <p data-t="intro">Explorează datele, joacă provocarea de sortare și descoperă cine se află în spatele dispariției șosetelor.</p>
+        <div class="hero-actions"><a class="primary" href="#game" data-t="play">Joacă acum</a><a class="ghost" href="./index.html" data-t="openLab">Deschide laboratorul</a></div>
+      </div>
+      <div class="portal-orbit" aria-hidden="true"><span class="orbit-sock">🧦</span><span class="orbit-dog">🐕</span><div class="portal-core">?</div></div>
+    </section>
+
+    <section class="quick-grid" aria-label="Portal modules">
+      <a class="module coral" href="./index.html"><span>📊</span><div><strong data-t="moduleAnalysis">Laborator de date</strong><small data-t="moduleAnalysisText">Donut, pie, bar și exporturi</small></div><b>→</b></a>
+      <a class="module purple" href="#game"><span>🎮</span><div><strong>Sock Sort Rush</strong><small data-t="moduleGameText">Joc rapid și accesibil</small></div><b>→</b></a>
+      <a class="module green" href="#progress"><span>🏆</span><div><strong data-t="moduleProgress">Centrul de progres</strong><small data-t="moduleProgressText">Recorduri și realizări locale</small></div><b>→</b></a>
+    </section>
+
+    <section class="game-shell" id="game" aria-labelledby="gameTitle">
+      <div class="game-head">
+        <div><p class="kicker" data-t="mission">Misiunea activă</p><h2 id="gameTitle">Sock Sort Rush</h2><p data-t="gameIntro">Trimite fiecare șosetă în sertarul cu simbolul identic.</p></div>
+        <div class="game-options">
+          <label><span data-t="difficulty">Dificultate</span><select id="difficulty"><option value="easy" data-t="easy">Ușor</option><option value="normal" selected data-t="normal">Normal</option><option value="hard" data-t="hard">Greu</option></select></label>
+          <button id="sound" type="button" aria-pressed="false"><span aria-hidden="true">🔇</span><span data-t="sound">Sunet</span></button>
+          <button id="scan" type="button" aria-pressed="false"><span aria-hidden="true">◉</span><span data-t="scan">Scanare</span></button>
+        </div>
+      </div>
+
+      <div class="hud" aria-label="Game statistics">
+        <div><small data-t="score">Scor</small><strong id="score">0</strong></div>
+        <div><small data-t="best">Record</small><strong id="best">0</strong></div>
+        <div><small>Streak</small><strong id="streak">0</strong></div>
+        <div><small data-t="level">Nivel</small><strong id="level">1</strong></div>
+        <div><small data-t="time">Timp</small><strong id="time">30</strong></div>
+      </div>
+
+      <div class="mission-progress"><div><span data-t="objective">Obiectiv: sortează 10 șosete</span><strong id="missionCount">0/10</strong></div><progress id="missionBar" max="10" value="0">0 din 10</progress></div>
+
+      <div class="playfield" id="playfield">
+        <p id="gameStatus" class="status" role="status" aria-live="polite" data-t="ready">Apasă Start pentru a începe.</p>
+        <div class="target" id="target" aria-live="polite"><span id="targetSock" aria-hidden="true">🧦</span><strong id="targetName" data-t="waiting">Așteaptă...</strong></div>
+        <div class="baskets" id="baskets" role="group" aria-label="Sertare pentru sortare"></div>
+        <p class="help" data-t="help">Folosește tastele 1–4, săgețile și Enter sau atinge un sertar.</p>
+        <button class="start" id="start" type="button" data-t="start">Pornește jocul</button>
+      </div>
+    </section>
+
+    <section class="progress-section" id="progress" aria-labelledby="progressTitle">
+      <div><p class="kicker" data-t="localProgress">Progres local</p><h2 id="progressTitle" data-t="progressTitle">Realizările tale</h2></div>
+      <div class="achievement-grid">
+        <article data-badge="first"><span>🌟</span><strong data-t="badgeFirst">Prima pereche</strong><small data-t="badgeFirstText">Sortează prima șosetă</small></article>
+        <article data-badge="streak"><span>🔥</span><strong data-t="badgeStreak">În flăcări</strong><small data-t="badgeStreakText">Ajunge la streak 5</small></article>
+        <article data-badge="mission"><span>🏆</span><strong data-t="badgeMission">Salvatorul sertarului</strong><small data-t="badgeMissionText">Finalizează o misiune</small></article>
+        <article data-badge="score"><span>🚀</span><strong data-t="badgeScore">Portal master</strong><small data-t="badgeScoreText">Obține 250 de puncte</small></article>
+      </div>
+      <button class="reset" id="resetProgress" type="button" data-t="resetProgress">Resetează progresul jocului</button>
+    </section>
+  </main>
+
+  <footer><span>LaurAi · Sockspiracy Portal</span><a href="https://laurandreea10.github.io/codepen-portfolio/">Portfolio</a></footer>
+  <div id="announcer" class="sr-only" aria-live="assertive"></div>
+  <script src="./portal.js" defer></script>
+</body>
+</html>
