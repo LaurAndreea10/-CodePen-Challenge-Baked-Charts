@@ -451,3 +451,5 @@ function bindArrowNavigation(){const items=[...document.querySelectorAll("#legen
 const oldApplyLanguage=applyLanguage;
 applyLanguage=function(language){oldApplyLanguage(language);const ro=language==="ro";setText("#studioLabel",ro?"Laborator de date":"Data studio");setText("#studioTitle",ro?"Personalizează raportul":"Customize the report");setText("#applyData",ro?"Aplică datele":"Apply data");setText("#shareReport",ro?"Partajează":"Share");setText("#historyTitle",ro?"Istoric local":"Local history");setText("#tableLabel",ro?"Alternativă accesibilă":"Accessible alternative");setText("#tableTitle",ro?"Datele graficului în format tabelar":"Chart data as a table");setText("#categoryHeader",ro?"Categorie":"Category");setText("#percentHeader",ro?"Procent":"Percentage");setText("#amountHeader",ro?"Număr estimat":"Estimated count");renderDataExtensions();renderHistory()};
 applyLanguage(currentLanguage);renderHistory();
+
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
