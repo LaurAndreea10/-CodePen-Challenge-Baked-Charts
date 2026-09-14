@@ -31,7 +31,7 @@ function renderBaskets(){
 function duration(){if($("#gameMode").value==="zen")return 999;return{easy:45,normal:30,hard:20}[$("#difficulty").value]}
 function points(){return{easy:8,normal:12,hard:18}[$("#difficulty").value]}
 function startGame(){
- clearInterval(timer);stopScan();active=true;score=0;streak=0;level=1;sorted=0;time=duration();$("#start").textContent=tr().again;updateHud();newTarget(false);
+ paused=false;shield=false;$("#playfield").classList.remove("paused");$("#pause").setAttribute("aria-pressed","false");clearInterval(timer);stopScan();active=true;score=0;streak=0;level=1;sorted=0;time=duration();$("#start").textContent=tr().again;updateHud();newTarget(false);
  if($("#gameMode").value!=="zen")timer=setInterval(()=>{if(paused)return;time--;updateHud();if(time<=0)endGame(false)},1000);if(scanOn)startScan();announce(tr().target+" "+socks[targetIndex][language])
 }
 function newTarget(announceIt=true){targetIndex=Math.floor(Math.random()*socks.length);const sock=socks[targetIndex];$("#targetSock").textContent=sock.icon+" "+sock.symbol;$("#targetSock").style.color=sock.color;$("#targetName").textContent=sock[language];if(announceIt)announce(tr().target+" "+sock[language])}
@@ -53,7 +53,7 @@ $("#scan").addEventListener("click",()=>{scanOn=!scanOn;$("#scan").setAttribute(
 function startScan(){stopScan();scanTimer=setInterval(()=>{const buttons=$$(".basket");buttons.forEach(b=>b.classList.remove("scanning"));buttons[scanIndex%buttons.length].classList.add("scanning");buttons[scanIndex%buttons.length].focus({preventScroll:true});scanIndex++},1200)}
 function stopScan(){clearInterval(scanTimer);$$(".basket").forEach(b=>b.classList.remove("scanning"))}
 document.addEventListener("keydown",event=>{if(!active||paused)return;if(["1","2","3","4"].includes(event.key))choose(Number(event.key)-1);if(scanOn&&(event.key===" "||event.key==="Enter")){event.preventDefault();choose((scanIndex-1+socks.length)%socks.length)}});
-$("#resetProgress").addEventListener("click",()=>{progress={best:0,badges:[]};persist();renderBadges();announce(tr().resetDone)});
+$("#resetProgress").addEventListener("click",()=>{progress={best:0,badges:[],xp:0,coins:0,games:0,totalSorted:0,attempts:0,correct:0,topStreak:0,daily:""};persist();renderBadges();updateMeta();announce(tr().resetDone)});
 applyLanguage();renderBadges();updateHud();
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 
