@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en" data-page-language="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <meta name="description" content="Sockspiracy is an accessible bilingual interactive dashboard exploring the mystery of missing socks." />
+    <meta name="author" content="Laura Andreea Plugaru" />
+    <meta name="creator" content="LaurAi" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#f8e7d4" />
+    <link rel="canonical" href="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/en.html" />
+    <link rel="alternate" hreflang="ro" href="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/" />
+    <link rel="alternate" hreflang="en" href="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/en.html" />
+    <link rel="alternate" hreflang="x-default" href="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sockspiracy — Accessible Baked Charts" />
+    <meta property="og:description" content="Explore an accessible bilingual interactive chart about the mystery of missing socks." />
+    <meta property="og:url" content="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/en.html" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ro_RO" />
+    <meta property="og:image" content="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/social-preview.svg" />
+    <meta property="og:image:alt" content="Sockspiracy interactive chart dashboard" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/social-preview.svg" />
+
+    <link rel="stylesheet" href="./style.css" />
+
+    <title>Sockspiracy — Interactive Accessible Chart | LaurAi</title>
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Sockspiracy","alternateName":"Where My Socks Go","description":"Dashboard bilingv și accesibil pentru vizualizarea interactivă a datelor.","applicationCategory":"EducationalApplication","operatingSystem":"Any","inLanguage":["ro","en"],"isAccessibleForFree":true,"accessibilityFeature":["alternativeText","highContrastDisplay","largePrint","keyboardNavigation","reducedMotion"],"author":{"@type":"Person","name":"Laura Andreea Plugaru","alternateName":"LaurAi","url":"https://laurandreea10.github.io/codepen-portfolio/"},"url":"https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/"}
+    </script>
+  </head>
+
+  <body data-default-language="en">
+    <a class="skip-link" href="#mainChart">Skip to chart</a>
+
+    <div class="background-effects" aria-hidden="true">
+      <span class="grid"></span>
+      <span class="blob blob-one"></span>
+      <span class="blob blob-two"></span>
+      <span class="floating-sock sock-one">🧦</span>
+      <span class="floating-sock sock-two">🧦</span>
+      <span class="floating-sock sock-three">🧦</span>
+    </div>
+
+    <main class="app">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span aria-hidden="true">🥐</span>
+            CodePen Challenge · Baked Charts
+          </p>
+
+          <h1>
+            The great
+            <span>sockspiracy.</span>
+          </h1>
+
+          <p class="intro">
+            A scientifically questionable investigation into where socks
+            disappear after entering the laundry system.
+          </p>
+
+          <div class="hero-actions">
+            <span class="status">
+              <span class="status-dot" aria-hidden="true"></span>
+              Laundry mystery active
+            </span>
+
+            <div class="preferences" aria-label="Preferințe">
+              <div class="language-switcher" role="group" aria-label="Language">
+                <button class="language-button active" data-language="ro" type="button" aria-pressed="true">RO</button>
+                <button class="language-button" data-language="en" type="button" aria-pressed="false">EN</button>
+              </div>
+              <button class="theme-button" id="themeButton" type="button" aria-label="Activează tema întunecată" aria-pressed="false">
+                <span aria-hidden="true">🌙</span><span class="theme-text">Mod întunecat</span>
+              </button>
+              <button class="theme-button" id="accessibilityButton" type="button" aria-expanded="false" aria-controls="accessibilityPanel">
+                <span aria-hidden="true">♿</span><span id="accessibilityButtonText">Accesibilitate</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="laundry-machine" aria-hidden="true">
+          <div class="machine-controls">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <div class="machine-door">
+            <div class="water"></div>
+            <span class="spinning-sock">🧦</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="accessibility-panel" id="accessibilityPanel" aria-labelledby="accessibilityTitle" hidden>
+        <div class="accessibility-heading"><div><p class="label" id="displaySettings">Preferințe de afișare</p><h2 id="accessibilityTitle">Accesibilitate</h2></div>
+          <button class="close-panel" id="closeAccessibility" type="button" aria-label="Închide">×</button>
+        </div>
+        <div class="accessibility-options">
+          <button class="accessibility-option" id="contrastButton" type="button" aria-pressed="false"><span aria-hidden="true">◐</span><span><strong id="contrastTitle">Contrast ridicat</strong><small id="contrastDescription">Mărește diferența dintre text și fundal</small></span></button>
+          <button class="accessibility-option" id="fontButton" type="button" aria-pressed="false"><span aria-hidden="true">A+</span><span><strong id="fontTitle">Text mărit</strong><small id="fontDescription">Mărește textul și comenzile</small></span></button>
+          <button class="accessibility-option" id="motionButton" type="button" aria-pressed="false"><span aria-hidden="true">⏸</span><span><strong id="motionTitle">Reduce animațiile</strong><small id="motionDescription">Oprește mișcările decorative</small></span></button>
+          <button class="reset-accessibility" id="resetAccessibility" type="button">Resetează preferințele</button>
+        </div>
+      </section>
+      <div class="sr-only" id="settingsAnnouncement" aria-live="polite" aria-atomic="true"></div>
+
+      <section class="toolbar" aria-label="Report controls">
+        <div class="range-tabs" role="group" aria-label="Reporting period">
+          <button class="range-button" data-range="week" type="button">
+            7 days
+          </button>
+
+          <button
+            class="range-button active"
+            data-range="month"
+            type="button"
+          >
+            30 days
+          </button>
+
+          <button class="range-button" data-range="year" type="button">
+            1 year
+          </button>
+        </div>
+
+        <button class="bake-button" id="bakeButton" type="button">
+          <span aria-hidden="true">✨</span>
+          Bake new data
+        </button>
+      </section>
+
+      <section class="dashboard">
+        <article class="chart-card" id="mainChart">
+          <div class="card-header">
+            <div>
+              <p class="label">Laundry intelligence</p>
+              <h2>Where my socks go</h2>
+              <p class="period" id="periodLabel">Last 30 days</p>
+            </div>
+
+            <span class="live-pill">
+              <span aria-hidden="true"></span>
+              Live crumbs
+            </span>
+          </div>
+
+          <div class="chart-content">
+            <div class="chart-wrap">
+              <svg
+                class="pie"
+                viewBox="0 0 100 100"
+                role="img"
+                aria-labelledby="chartTitle chartDescription"
+              >
+                <title id="chartTitle">Where my socks go</title>
+
+                <desc id="chartDescription">
+                  Interactive donut chart showing the distribution of
+                  tracked socks.
+                </desc>
+
+                <circle
+                  class="chart-track"
+                  r="25"
+                  cx="50"
+                  cy="50"
+                ></circle>
+
+                <g
+                  id="chartSlices"
+                  fill="none"
+                  stroke-width="50"
+                  transform="rotate(-90 50 50)"
+                ></g>
+
+                <circle
+                  class="pie-center"
+                  r="17"
+                  cx="50"
+                  cy="50"
+                ></circle>
+              </svg>
+
+              <div class="center-label" aria-hidden="true">
+                <span class="pct" id="centerValue">100%</span>
+                <span class="cap" id="centerCaption">
+                  socks accounted for
+                </span>
+              </div>
+            </div>
+
+            <ul class="legend" id="legend"></ul>
+          </div>
+
+          <p
+            class="sr-only"
+            id="chartAnnouncement"
+            aria-live="polite"
+          >
+            All sock categories are displayed.
+          </p>
+
+          <noscript>
+            <img
+              class="fallback-chart"
+              src="pie.svg"
+              alt="Pie chart showing where missing socks go."
+            />
+          </noscript>
+        </article>
+
+        <aside class="metrics" aria-label="Laundry statistics">
+          <article class="metric featured">
+            <span class="metric-icon" aria-hidden="true">🧦</span>
+
+            <div>
+              <p>Pair survival rate</p>
+              <strong id="survivalMetric">40%</strong>
+              <small>↑ 6% this month</small>
+            </div>
+          </article>
+
+          <article class="metric">
+            <span class="metric-icon" aria-hidden="true">🌀</span>
+
+            <div>
+              <p>Dryer portal risk</p>
+              <strong id="dryerMetric">25%</strong>
+              <small class="danger">High probability</small>
+            </div>
+          </article>
+
+          <article class="metric">
+            <span class="metric-icon" aria-hidden="true">🐕</span>
+
+            <div>
+              <p>Dog involvement</p>
+              <strong id="dogMetric">15%</strong>
+              <small class="purple-text">Under investigation</small>
+            </div>
+          </article>
+        </aside>
+      </section>
+
+      <section class="data-studio" aria-labelledby="studioTitle">
+        <div class="studio-header">
+          <div><p class="label" id="studioLabel">Laborator de date</p><h2 id="studioTitle">Personalizează raportul</h2></div>
+          <div class="chart-type" role="group" aria-label="Tip grafic">
+            <button class="chart-type-button active" data-chart-type="donut" type="button" aria-pressed="true">Donut</button>
+            <button class="chart-type-button" data-chart-type="pie" type="button" aria-pressed="false">Pie</button>
+            <button class="chart-type-button" data-chart-type="bar" type="button" aria-pressed="false">Bar</button>
+          </div>
+        </div>
+        <form id="dataForm">
+          <div class="data-inputs" id="dataInputs"></div>
+          <p class="total-status" id="totalStatus" role="status">Total: 100%</p>
+          <div class="studio-actions">
+            <button class="secondary-button" type="submit" id="applyData">Aplică datele</button>
+            <button class="secondary-button" type="button" id="exportCsv">CSV</button>
+            <button class="secondary-button" type="button" id="exportJson">JSON</button>
+            <button class="secondary-button" type="button" id="exportSvg">SVG</button>
+            <button class="secondary-button" type="button" id="exportPng">PNG</button>
+            <button class="secondary-button" type="button" id="shareReport">Partajează</button>
+          </div>
+        </form>
+        <div class="history-block"><h3 id="historyTitle">Istoric local</h3><ol id="reportHistory"></ol></div>
+      </section>
+
+      <section class="accessible-data" aria-labelledby="tableTitle">
+        <div><p class="label" id="tableLabel">Alternativă accesibilă</p><h2 id="tableTitle">Datele graficului în format tabelar</h2></div>
+        <div class="table-scroll"><table><caption class="sr-only">Distribuția șosetelor</caption><thead><tr><th scope="col" id="categoryHeader">Categorie</th><th scope="col" id="percentHeader">Procent</th><th scope="col" id="amountHeader">Număr estimat</th></tr></thead><tbody id="dataTableBody"></tbody></table></div>
+      </section>
+
+      <section class="insight">
+        <div class="insight-icon" aria-hidden="true">✨</div>
+
+        <div>
+          <p class="label">Freshly baked insight</p>
+          <h2 id="insightTitle">The dryer dimension is expanding.</h2>
+
+          <p id="insightText">
+            Pair socks immediately after drying and inspect the dog's bed
+            before declaring another sock officially lost.
+          </p>
+        </div>
+
+        <span class="confidence" id="confidence">92% suspicious</span>
+      </section>
+
+      <footer>
+        <p>Baked with data, crumbs and suspicious socks.</p>
+        <p id="updatedTime">Case #404 · Updated just now</p>
+      </footer>
+    </main>
+
+    <div
+      class="confetti-layer"
+      id="confettiLayer"
+      aria-hidden="true"
+    ></div>
+
+    <script src="./script.js" defer></script>
+  </body>
+</html>
