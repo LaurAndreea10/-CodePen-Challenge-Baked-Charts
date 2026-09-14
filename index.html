@@ -1,19 +1,31 @@
 <!doctype html>
-<html lang="en">
+<html lang="ro">
   <head>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <meta
-      name="description"
-      content="An interactive investigation into the mystery of disappearing socks."
-    />
+    <meta name="description" content="Sockspiracy este un dashboard interactiv, bilingv și accesibil despre misterul șosetelor dispărute." />
+    <meta name="author" content="Laura Andreea Plugaru" />
+    <meta name="creator" content="LaurAi" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#f8e7d4" />
+    <link rel="canonical" href="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sockspiracy — Accessible Baked Charts" />
+    <meta property="og:description" content="Explorează un grafic interactiv RO/EN despre misterul șosetelor dispărute." />
+    <meta property="og:url" content="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/" />
+    <meta property="og:locale" content="ro_RO" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta name="twitter:card" content="summary" />
 
     <link rel="stylesheet" href="./style.css" />
 
-    <title>Sockspiracy — Baked Charts</title>
+    <title>Sockspiracy — Grafic interactiv accesibil | LaurAi</title>
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Sockspiracy","alternateName":"Where My Socks Go","description":"Dashboard bilingv și accesibil pentru vizualizarea interactivă a datelor.","applicationCategory":"EducationalApplication","operatingSystem":"Any","inLanguage":["ro","en"],"isAccessibleForFree":true,"accessibilityFeature":["alternativeText","highContrastDisplay","largePrint","keyboardNavigation","reducedMotion"],"author":{"@type":"Person","name":"Laura Andreea Plugaru","alternateName":"LaurAi","url":"https://laurandreea10.github.io/codepen-portfolio/"},"url":"https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/"}
+    </script>
   </head>
 
   <body>
@@ -52,16 +64,18 @@
               Laundry mystery active
             </span>
 
-            <button
-              class="theme-button"
-              id="themeButton"
-              type="button"
-              aria-label="Switch to dark theme"
-              aria-pressed="false"
-            >
-              <span aria-hidden="true">🌙</span>
-              <span class="theme-text">Dark mode</span>
-            </button>
+            <div class="preferences" aria-label="Preferințe">
+              <div class="language-switcher" role="group" aria-label="Language">
+                <button class="language-button active" data-language="ro" type="button" aria-pressed="true">RO</button>
+                <button class="language-button" data-language="en" type="button" aria-pressed="false">EN</button>
+              </div>
+              <button class="theme-button" id="themeButton" type="button" aria-label="Activează tema întunecată" aria-pressed="false">
+                <span aria-hidden="true">🌙</span><span class="theme-text">Mod întunecat</span>
+              </button>
+              <button class="theme-button" id="accessibilityButton" type="button" aria-expanded="false" aria-controls="accessibilityPanel">
+                <span aria-hidden="true">♿</span><span id="accessibilityButtonText">Accesibilitate</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -78,6 +92,19 @@
           </div>
         </div>
       </header>
+
+      <section class="accessibility-panel" id="accessibilityPanel" aria-labelledby="accessibilityTitle" hidden>
+        <div class="accessibility-heading"><div><p class="label" id="displaySettings">Preferințe de afișare</p><h2 id="accessibilityTitle">Accesibilitate</h2></div>
+          <button class="close-panel" id="closeAccessibility" type="button" aria-label="Închide">×</button>
+        </div>
+        <div class="accessibility-options">
+          <button class="accessibility-option" id="contrastButton" type="button" aria-pressed="false"><span aria-hidden="true">◐</span><span><strong id="contrastTitle">Contrast ridicat</strong><small id="contrastDescription">Mărește diferența dintre text și fundal</small></span></button>
+          <button class="accessibility-option" id="fontButton" type="button" aria-pressed="false"><span aria-hidden="true">A+</span><span><strong id="fontTitle">Text mărit</strong><small id="fontDescription">Mărește textul și comenzile</small></span></button>
+          <button class="accessibility-option" id="motionButton" type="button" aria-pressed="false"><span aria-hidden="true">⏸</span><span><strong id="motionTitle">Reduce animațiile</strong><small id="motionDescription">Oprește mișcările decorative</small></span></button>
+          <button class="reset-accessibility" id="resetAccessibility" type="button">Resetează preferințele</button>
+        </div>
+      </section>
+      <div class="sr-only" id="settingsAnnouncement" aria-live="polite" aria-atomic="true"></div>
 
       <section class="toolbar" aria-label="Report controls">
         <div class="range-tabs" role="group" aria-label="Reporting period">
@@ -210,7 +237,7 @@
 
             <div>
               <p>Dog involvement</p>
-              <strong id="dogMetric">1515%</strong>
+              <strong id="dogMetric">15%</strong>
               <small class="purple-text">Under investigation</small>
             </div>
           </article>
@@ -245,361 +272,6 @@
       aria-hidden="true"
     ></div>
 
-    <script>
-      const categories = [
-        {
-          name: "Still paired",
-          description: "Safe in the drawer",
-          caption: "still paired",
-          icon: "🧦",
-          color: "#e07a5f"
-        },
-        {
-          name: "Dryer dimension",
-          description: "Portal activity detected",
-          caption: "dryer dimension",
-          icon: "🌀",
-          color: "#8d6a9f"
-        },
-        {
-          name: "Under the couch",
-          description: "Dust ecosystem",
-          caption: "under the couch",
-          icon: "🛋️",
-          color: "#3d9a8b"
-        },
-        {
-          name: "Dog's secret stash",
-          description: "Highly suspicious",
-          caption: "dog's stash",
-          icon: "🐕",
-          color: "#f2a541"
-        }
-      ];
-
-      const reports = {
-        week: {
-          title: "Last 7 days",
-          total: 20,
-          values: [45, 20, 20, 15]
-        },
-        month: {
-          title: "Last 30 days",
-          total: 40,
-          values: [40, 25, 20, 15]
-        },
-        year: {
-          title: "Last 12 months",
-          total: 128,
-          values: [36, 29, 18, 17]
-        }
-      };
-
-      const circumference = 2 * Math.PI * 25;
-
-      const chartSlices = document.querySelector("#chartSlices");
-      const legend = document.querySelector("#legend");
-      const centerValue = document.querySelector("#centerValue");
-      const centerCaption = document.querySelector("#centerCaption");
-      const announcement = document.querySelector("#chartAnnouncement");
-      const periodLabel = document.querySelector("#periodLabel");
-      const survivalMetric = document.querySelector("#survivalMetric");
-      const dryerMetric = document.querySelector("#dryerMetric");
-      const dogMetric = document.querySelector("#dogMetric");
-      const insightTitle = document.querySelector("#insightTitle");
-      const insightText = document.querySelector("#insightText");
-      const confidence = document.querySelector("#confidence");
-      const bakeButton = document.querySelector("#bakeButton");
-      const themeButton = document.querySelector("#themeButton");
-      const confettiLayer = document.querySelector("#confettiLayer");
-
-      let currentRange = "month";
-      let selectedCategory = null;
-
-      function renderChart() {
-        const report = reports[currentRange];
-        let offset = 0;
-
-        chartSlices.replaceChildren();
-        legend.replaceChildren();
-
-        report.values.forEach((value, index) => {
-          const category = categories[index];
-          const segmentLength = (value / 100) * circumference;
-
-          const circle = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "circle"
-          );
-
-          circle.classList.add("slice");
-          circle.dataset.index = index;
-          circle.setAttribute("r", "25");
-          circle.setAttribute("cx", "50");
-          circle.setAttribute("cy", "50");
-          circle.setAttribute("stroke", category.color);
-          circle.setAttribute(
-            "stroke-dasharray",
-            `${Math.max(segmentLength - 1.1, 0)} ${circumference}`
-          );
-          circle.setAttribute("stroke-dashoffset", String(-offset));
-          circle.setAttribute("tabindex", "0");
-          circle.setAttribute("role", "button");
-          circle.setAttribute(
-            "aria-label",
-            `${category.name}: ${value} percent`
-          );
-
-          circle.style.animationDelay = `${index * 140}ms`;
-
-          chartSlices.append(circle);
-
-          const item = document.createElement("li");
-          item.dataset.index = index;
-          item.tabIndex = 0;
-          item.setAttribute("role", "button");
-          item.setAttribute(
-            "aria-label",
-            `Show ${category.name}, ${value} percent`
-          );
-
-          item.innerHTML = `
-            <span
-              class="legend-dot"
-              style="--legend-color:${category.color}"
-            ></span>
-
-            <span class="legend-copy">
-              <strong>${category.icon} ${category.name}</strong>
-              <small>${category.description}</small>
-            </span>
-
-            <b>${value}%</b>
-          `;
-
-          legend.append(item);
-          offset += segmentLength;
-        });
-
-        periodLabel.textContent = report.title;
-        survivalMetric.textContent = `${report.values[0]}%`;
-        dryerMetric.textContent = `${report.values[1]}%`;
-        dogMetric.textContent = `${report.values[3]}%`;
-
-        bindChartEvents();
-        resetSelection();
-        updateInsight();
-      }
-
-      function bindChartEvents() {
-        const slices = [...document.querySelectorAll(".slice")];
-        const items = [...legend.querySelectorAll("li")];
-
-        [...slices, ...items].forEach((element) => {
-          const index = Number(element.dataset.index);
-
-          element.addEventListener("mouseenter", () => {
-            activateCategory(index);
-          });
-
-          element.addEventListener("mouseleave", () => {
-            if (selectedCategory === null) resetSelection();
-          });
-
-          element.addEventListener("focus", () => {
-            activateCategory(index);
-          });
-
-          element.addEventListener("blur", () => {
-            if (selectedCategory === null) resetSelection();
-          });
-
-          element.addEventListener("click", () => {
-            if (selectedCategory === index) {
-              selectedCategory = null;
-              resetSelection();
-            } else {
-              selectedCategory = index;
-              activateCategory(index);
-            }
-          });
-
-          element.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.key === " ") {
-              event.preventDefault();
-              element.click();
-            }
-
-            if (event.key === "Escape") {
-              selectedCategory = null;
-              resetSelection();
-              element.blur();
-            }
-          });
-        });
-      }
-
-      function activateCategory(index) {
-        const report = reports[currentRange];
-        const category = categories[index];
-        const value = report.values[index];
-        const amount = Math.round((value / 100) * report.total);
-
-        document.querySelectorAll(".slice").forEach((slice, position) => {
-          slice.classList.toggle("active", position === index);
-          slice.classList.toggle("muted", position !== index);
-        });
-
-        legend.querySelectorAll("li").forEach((item, position) => {
-          item.classList.toggle("active", position === index);
-          item.classList.toggle("muted", position !== index);
-        });
-
-        centerValue.textContent = `${value}%`;
-        centerCaption.textContent = category.caption;
-
-        announcement.textContent =
-          `${category.name}: ${value} percent, approximately ` +
-          `${amount} tracked socks. ${category.description}.`;
-      }
-
-      function resetSelection() {
-        document.querySelectorAll(".slice").forEach((slice) => {
-          slice.classList.remove("active", "muted");
-        });
-
-        legend.querySelectorAll("li").forEach((item) => {
-          item.classList.remove("active", "muted");
-        });
-
-        centerValue.textContent = reports[currentRange].total;
-        centerCaption.textContent = "socks tracked";
-        announcement.textContent = "All sock categories are displayed.";
-      }
-
-      function updateInsight() {
-        const values = reports[currentRange].values;
-        const missingValues = values.slice(1);
-        const highestMissing = Math.max(...missingValues);
-        const index = values.indexOf(highestMissing);
-        const category = categories[index];
-
-        insightTitle.textContent = `${category.name} leads the mystery.`;
-
-        insightText.textContent =
-          `${category.description}. It currently accounts for ` +
-          `${highestMissing}% of missing socks. Immediate investigation ` +
-          `and emergency sock pairing are recommended.`;
-
-        confidence.textContent =
-          `${Math.min(99, 65 + highestMissing)}% suspicious`;
-      }
-
-      function randomValues() {
-        const paired = randomNumber(32, 52);
-        const dryer = randomNumber(18, 30);
-        const couch = randomNumber(12, 24);
-        const dog = 100 - paired - dryer - couch;
-
-        if (dog < 8 || dog > 25) return randomValues();
-
-        return [paired, dryer, couch, dog];
-      }
-
-      function randomNumber(minimum, maximum) {
-        return Math.floor(
-          Math.random() * (maximum - minimum + 1) + minimum
-        );
-      }
-
-      function launchConfetti() {
-        if (
-          window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ) {
-          return;
-        }
-
-        const colors = categories.map((category) => category.color);
-
-        for (let index = 0; index < 35; index += 1) {
-          const piece = document.createElement("span");
-
-          piece.className = "confetti";
-          piece.style.left = `${Math.random() * 100}%`;
-          piece.style.background =
-            colors[Math.floor(Math.random() * colors.length)];
-          piece.style.animationDelay = `${Math.random() * 300}ms`;
-
-          confettiLayer.append(piece);
-          piece.addEventListener("animationend", () => piece.remove());
-        }
-      }
-
-      document.querySelectorAll(".range-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          document
-            .querySelector(".range-button.active")
-            ?.classList.remove("active");
-
-          button.classList.add("active");
-          currentRange = button.dataset.range;
-          selectedCategory = null;
-
-          renderChart();
-        });
-      });
-
-      bakeButton.addEventListener("click", () => {
-        reports[currentRange].values = randomValues();
-        selectedCategory = null;
-
-        renderChart();
-        launchConfetti();
-
-        document.querySelector("#updatedTime").textContent =
-          "Case #404 · Freshly baked just now";
-      });
-
-      themeButton.addEventListener("click", () => {
-        const darkMode =
-          document.documentElement.dataset.theme === "dark";
-
-        const newTheme = darkMode ? "light" : "dark";
-
-        document.documentElement.dataset.theme = newTheme;
-        localStorage.setItem("sockspiracy-theme", newTheme);
-
-        themeButton.setAttribute(
-          "aria-pressed",
-          String(newTheme === "dark")
-        );
-
-        themeButton.setAttribute(
-          "aria-label",
-          newTheme === "dark"
-            ? "Switch to light theme"
-            : "Switch to dark theme"
-        );
-
-        themeButton.querySelector("[aria-hidden]").textContent =
-          newTheme === "dark" ? "☀️" : "🌙";
-
-        themeButton.querySelector(".theme-text").textContent =
-          newTheme === "dark" ? "Light mode" : "Dark mode";
-      });
-
-      const savedTheme = localStorage.getItem("sockspiracy-theme");
-
-      if (savedTheme === "dark") {
-        document.documentElement.dataset.theme = "dark";
-        themeButton.setAttribute("aria-pressed", "true");
-        themeButton.setAttribute("aria-label", "Switch to light theme");
-        themeButton.querySelector("[aria-hidden]").textContent = "☀️";
-        themeButton.querySelector(".theme-text").textContent =
-          "Light mode";
-      }
-
-      renderChart();
-    </script>
+    <script src="./javascript" defer></script>
   </body>
 </html>
