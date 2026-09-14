@@ -48,7 +48,7 @@ An accessible, bilingual interactive data-visualization experiment created for t
 
 ## Sock Sort Rush
 
-The integrated accessible game includes progressive levels, difficulty modes, score, streak, local best score, missions, badges, keyboard shortcuts, touch controls, haptic feedback, optional sound and automatic single-switch scanning.
+The integrated accessible game includes Classic, Time Attack and Zen modes, progressive levels, XP ranks, coins, power-ups, pause/resume, a daily challenge, lifetime statistics, score, streak, local best score, missions, badges, keyboard shortcuts, touch controls, haptic feedback, optional sound and automatic single-switch scanning.
 
 ## Files
 
