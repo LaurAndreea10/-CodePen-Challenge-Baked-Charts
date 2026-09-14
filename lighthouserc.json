@@ -5,10 +5,7 @@
         "https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/",
         "https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/en.html"
       ],
-      "numberOfRuns": 3,
-      "settings": {
-        "preset": "desktop"
-      }
+      "numberOfRuns": 3
     },
     "assert": {
       "assertions": {
