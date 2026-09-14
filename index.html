@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ro">
+<html lang="ro" data-page-language="ro">
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -12,6 +12,10 @@
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#f8e7d4" />
     <link rel="canonical" href="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/" />
+    <link rel="alternate" hreflang="ro" href="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/" />
+    <link rel="alternate" hreflang="en" href="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/en.html" />
+    <link rel="alternate" hreflang="x-default" href="https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Sockspiracy — Accessible Baked Charts" />
     <meta property="og:description" content="Explorează un grafic interactiv RO/EN despre misterul șosetelor dispărute." />
@@ -28,7 +32,7 @@
     </script>
   </head>
 
-  <body>
+  <body data-default-language="ro">
     <a class="skip-link" href="#mainChart">Skip to chart</a>
 
     <div class="background-effects" aria-hidden="true">
@@ -244,6 +248,35 @@
         </aside>
       </section>
 
+      <section class="data-studio" aria-labelledby="studioTitle">
+        <div class="studio-header">
+          <div><p class="label" id="studioLabel">Laborator de date</p><h2 id="studioTitle">Personalizează raportul</h2></div>
+          <div class="chart-type" role="group" aria-label="Tip grafic">
+            <button class="chart-type-button active" data-chart-type="donut" type="button" aria-pressed="true">Donut</button>
+            <button class="chart-type-button" data-chart-type="pie" type="button" aria-pressed="false">Pie</button>
+            <button class="chart-type-button" data-chart-type="bar" type="button" aria-pressed="false">Bar</button>
+          </div>
+        </div>
+        <form id="dataForm">
+          <div class="data-inputs" id="dataInputs"></div>
+          <p class="total-status" id="totalStatus" role="status">Total: 100%</p>
+          <div class="studio-actions">
+            <button class="secondary-button" type="submit" id="applyData">Aplică datele</button>
+            <button class="secondary-button" type="button" id="exportCsv">CSV</button>
+            <button class="secondary-button" type="button" id="exportJson">JSON</button>
+            <button class="secondary-button" type="button" id="exportSvg">SVG</button>
+            <button class="secondary-button" type="button" id="exportPng">PNG</button>
+            <button class="secondary-button" type="button" id="shareReport">Partajează</button>
+          </div>
+        </form>
+        <div class="history-block"><h3 id="historyTitle">Istoric local</h3><ol id="reportHistory"></ol></div>
+      </section>
+
+      <section class="accessible-data" aria-labelledby="tableTitle">
+        <div><p class="label" id="tableLabel">Alternativă accesibilă</p><h2 id="tableTitle">Datele graficului în format tabelar</h2></div>
+        <div class="table-scroll"><table><caption class="sr-only">Distribuția șosetelor</caption><thead><tr><th scope="col" id="categoryHeader">Categorie</th><th scope="col" id="percentHeader">Procent</th><th scope="col" id="amountHeader">Număr estimat</th></tr></thead><tbody id="dataTableBody"></tbody></table></div>
+      </section>
+
       <section class="insight">
         <div class="insight-icon" aria-hidden="true">✨</div>
 
@@ -272,6 +305,6 @@
       aria-hidden="true"
     ></div>
 
-    <script src="./javascript" defer></script>
+    <script src="./script.js" defer></script>
   </body>
 </html>
