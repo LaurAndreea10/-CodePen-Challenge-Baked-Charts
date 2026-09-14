@@ -2,7 +2,7 @@
   "name": "Sockspiracy — Accessible Baked Charts",
   "short_name": "Sockspiracy",
   "description": "Accessible bilingual interactive sock data visualization.",
-  "start_url": "./",
+  "start_url": "./portal.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f8e7d4",
@@ -15,5 +15,6 @@
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "id": "./portal.html"
 }
