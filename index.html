@@ -1,147 +1,204 @@
-<main class="app">
-  <header class="hero">
-    <div>
-      <p class="eyebrow">🥐 CodePen Challenge · Baked Charts</p>
-      <h1>Where do my socks go?</h1>
-      <p class="subtitle">
-        A scientifically questionable investigation into the mysterious
-        disappearance of freshly baked laundry.
-      </p>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <meta
+      name="description"
+      content="A playful visual investigation into the mystery of disappearing socks."
+    />
+
+    <link rel="stylesheet" href="./style.css" />
+
+    <title>Sockspiracy — Baked Charts</title>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#chart">Skip to chart</a>
+
+    <div class="background" aria-hidden="true">
+      <span class="blob blob-one"></span>
+      <span class="blob blob-two"></span>
+      <span class="grid"></span>
+
+      <span class="floating-sock sock-one">🧦</span>
+      <span class="floating-sock sock-two">🧦</span>
+      <span class="floating-sock sock-three">🧦</span>
     </div>
 
-    <button
-      class="icon-button"
-      id="themeButton"
-      type="button"
-      aria-label="Switch color theme"
-      aria-pressed="false"
-    >
-      <span aria-hidden="true">🌙</span>
-    </button>
-  </header>
+    <main class="app">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span aria-hidden="true">🥐</span>
+            CodePen Challenge · Baked Charts
+          </p>
 
-  <section class="controls" aria-label="Chart controls">
-    <div class="range-tabs" role="group" aria-label="Select reporting period">
-      <button class="tab" data-range="week" type="button">7 days</button>
-      <button class="tab active" data-range="month" type="button">30 days</button>
-      <button class="tab" data-range="year" type="button">1 year</button>
-    </div>
+          <h1>
+            The great
+            <span>sockspiracy.</span>
+          </h1>
 
-    <button class="primary-button" id="remixButton" type="button">
-      <span aria-hidden="true">✨</span>
-      Bake new data
-    </button>
-  </section>
+          <p class="intro">
+            A scientifically questionable investigation into where socks
+            disappear after entering the laundry system.
+          </p>
 
-  <section class="dashboard">
-    <article class="chart-card">
-      <div class="card-heading">
-        <div>
-          <p class="card-label">Sock distribution</p>
-          <h2 id="periodTitle">Last 30 days</h2>
+          <div class="status">
+            <span class="status-dot" aria-hidden="true"></span>
+            Laundry mystery currently active
+          </div>
         </div>
 
-        <span class="live-badge">
-          <span class="pulse"></span>
-          Live crumbs
-        </span>
-      </div>
-
-      <div class="chart-layout">
-        <div class="donut-wrapper">
-          <svg
-            class="donut"
-            id="donutChart"
-            viewBox="0 0 220 220"
-            role="img"
-            aria-labelledby="chartTitle chartDescription"
-          >
-            <title id="chartTitle">Where my socks go</title>
-            <desc id="chartDescription">
-              Interactive donut chart displaying the location of missing socks.
-            </desc>
-
-            <circle
-              class="donut-track"
-              cx="110"
-              cy="110"
-              r="78"
-            ></circle>
-
-            <g id="chartSegments"></g>
-          </svg>
-
-          <div class="donut-center" aria-hidden="true">
-            <span id="sockTotal">40</span>
-            <small>socks tracked</small>
+        <div class="laundry-machine" aria-hidden="true">
+          <div class="machine-controls">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
 
-          <div class="tooltip" id="tooltip" role="status"></div>
+          <div class="machine-door">
+            <div class="water"></div>
+            <span class="spinning-sock">🧦</span>
+          </div>
         </div>
+      </header>
 
-        <div class="legend" id="legend"></div>
-      </div>
+      <section class="dashboard" aria-labelledby="dashboard-title">
+        <h2 class="visually-hidden" id="dashboard-title">
+          Sock disappearance dashboard
+        </h2>
 
-      <p class="sr-only" id="accessibleSummary" aria-live="polite"></p>
-    </article>
+        <article class="chart-card" id="chart">
+          <div class="card-header">
+            <div>
+              <p class="label">Laundry intelligence</p>
+              <h2>Where my socks go</h2>
+            </div>
 
-    <aside class="insights">
-      <article class="metric-card featured">
-        <div class="metric-icon" aria-hidden="true">🧦</div>
+            <span class="live-pill">
+              <span aria-hidden="true"></span>
+              Live crumbs
+            </span>
+          </div>
+
+          <div class="chart-frame">
+            <div class="chart-glow" aria-hidden="true"></div>
+
+            <img
+              src="pie.svg"
+              alt="Pie chart titled Where my socks go. 40 percent are still paired in the drawer, 25 percent enter the dryer dimension, 20 percent are under the couch, and 15 percent are in the dog's secret stash."
+            />
+
+            <div class="chart-center" aria-hidden="true">
+              <strong>40</strong>
+              <span>socks tracked</span>
+            </div>
+          </div>
+
+          <div class="legend" aria-label="Chart legend">
+            <div class="legend-item orange">
+              <span class="legend-icon" aria-hidden="true">🧦</span>
+
+              <div>
+                <strong>Still paired</strong>
+                <small>Safe in the drawer</small>
+              </div>
+
+              <b>40%</b>
+            </div>
+
+            <div class="legend-item yellow">
+              <span class="legend-icon" aria-hidden="true">🌀</span>
+
+              <div>
+                <strong>Dryer dimension</strong>
+                <small>Portal activity</small>
+              </div>
+
+              <b>25%</b>
+            </div>
+
+            <div class="legend-item purple">
+              <span class="legend-icon" aria-hidden="true">🛋️</span>
+
+              <div>
+                <strong>Under the couch</strong>
+                <small>Dust ecosystem</small>
+              </div>
+
+              <b>20%</b>
+            </div>
+
+            <div class="legend-item green">
+              <span class="legend-icon" aria-hidden="true">🐕</span>
+
+              <div>
+                <strong>Dog's secret stash</strong>
+                <small>Highly suspicious</small>
+              </div>
+
+              <b>15%</b>
+            </div>
+          </div>
+        </article>
+
+        <aside class="metrics" aria-label="Laundry statistics">
+          <article class="metric featured">
+            <span class="metric-icon" aria-hidden="true">🧦</span>
+
+            <div>
+              <p>Pair survival rate</p>
+              <strong>40%</strong>
+              <small>↑ 6% this month</small>
+            </div>
+          </article>
+
+          <article class="metric">
+            <span class="metric-icon" aria-hidden="true">🌀</span>
+
+            <div>
+              <p>Dryer portal risk</p>
+              <strong>25%</strong>
+              <small class="danger">High probability</small>
+            </div>
+          </article>
+
+          <article class="metric">
+            <span class="metric-icon" aria-hidden="true">🐕</span>
+
+            <div>
+              <p>Dog involvement</p>
+              <strong>15%</strong>
+              <small class="purple-text">Under investigation</small>
+            </div>
+          </article>
+        </aside>
+      </section>
+
+      <section class="insight">
+        <div class="insight-icon" aria-hidden="true">✨</div>
+
         <div>
-          <p>Pair survival rate</p>
-          <strong id="survivalRate">40%</strong>
-          <span class="trend positive">↑ 6% this month</span>
+          <p class="label">Freshly baked insight</p>
+          <h2>The dryer dimension is expanding.</h2>
+
+          <p>
+            Pair socks immediately after drying and inspect the dog's bed
+            before declaring another sock officially lost.
+          </p>
         </div>
-      </article>
 
-      <article class="metric-card">
-        <div class="metric-icon" aria-hidden="true">🌀</div>
-        <div>
-          <p>Dryer portal risk</p>
-          <strong id="dryerRisk">25%</strong>
-          <span class="trend negative">High probability</span>
-        </div>
-      </article>
+        <span class="confidence">92% suspicious</span>
+      </section>
 
-      <article class="metric-card">
-        <div class="metric-icon" aria-hidden="true">🐕</div>
-        <div>
-          <p>Dog involvement</p>
-          <strong id="dogRisk">15%</strong>
-          <span class="trend neutral">Under investigation</span>
-        </div>
-      </article>
-    </aside>
-  </section>
-
-  <section class="story-card">
-    <div class="story-copy">
-      <p class="card-label">AI laundry insight</p>
-      <h2>The dryer dimension is expanding.</h2>
-      <p id="insightText">
-        Your safest strategy is pairing socks immediately after drying and
-        checking the dog's bed before declaring another sock officially lost.
-      </p>
-    </div>
-
-    <div class="machine" aria-hidden="true">
-      <div class="machine-top">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
-      <div class="machine-door">
-        <div class="sock-orbit">🧦</div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <span>Baked with data, crumbs and suspicious socks.</span>
-    <span id="updatedTime">Updated just now</span>
-  </footer>
-</main>
-
-<div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+      <footer>
+        <p>Baked with data, crumbs and suspicious socks.</p>
+        <p>Case #404 · Sock not found</p>
+      </footer>
+    </main>
+  </body>
+</html>
