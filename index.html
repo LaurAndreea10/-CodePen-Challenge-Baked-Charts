@@ -1,0 +1,147 @@
+<main class="app">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">🥐 CodePen Challenge · Baked Charts</p>
+      <h1>Where do my socks go?</h1>
+      <p class="subtitle">
+        A scientifically questionable investigation into the mysterious
+        disappearance of freshly baked laundry.
+      </p>
+    </div>
+
+    <button
+      class="icon-button"
+      id="themeButton"
+      type="button"
+      aria-label="Switch color theme"
+      aria-pressed="false"
+    >
+      <span aria-hidden="true">🌙</span>
+    </button>
+  </header>
+
+  <section class="controls" aria-label="Chart controls">
+    <div class="range-tabs" role="group" aria-label="Select reporting period">
+      <button class="tab" data-range="week" type="button">7 days</button>
+      <button class="tab active" data-range="month" type="button">30 days</button>
+      <button class="tab" data-range="year" type="button">1 year</button>
+    </div>
+
+    <button class="primary-button" id="remixButton" type="button">
+      <span aria-hidden="true">✨</span>
+      Bake new data
+    </button>
+  </section>
+
+  <section class="dashboard">
+    <article class="chart-card">
+      <div class="card-heading">
+        <div>
+          <p class="card-label">Sock distribution</p>
+          <h2 id="periodTitle">Last 30 days</h2>
+        </div>
+
+        <span class="live-badge">
+          <span class="pulse"></span>
+          Live crumbs
+        </span>
+      </div>
+
+      <div class="chart-layout">
+        <div class="donut-wrapper">
+          <svg
+            class="donut"
+            id="donutChart"
+            viewBox="0 0 220 220"
+            role="img"
+            aria-labelledby="chartTitle chartDescription"
+          >
+            <title id="chartTitle">Where my socks go</title>
+            <desc id="chartDescription">
+              Interactive donut chart displaying the location of missing socks.
+            </desc>
+
+            <circle
+              class="donut-track"
+              cx="110"
+              cy="110"
+              r="78"
+            ></circle>
+
+            <g id="chartSegments"></g>
+          </svg>
+
+          <div class="donut-center" aria-hidden="true">
+            <span id="sockTotal">40</span>
+            <small>socks tracked</small>
+          </div>
+
+          <div class="tooltip" id="tooltip" role="status"></div>
+        </div>
+
+        <div class="legend" id="legend"></div>
+      </div>
+
+      <p class="sr-only" id="accessibleSummary" aria-live="polite"></p>
+    </article>
+
+    <aside class="insights">
+      <article class="metric-card featured">
+        <div class="metric-icon" aria-hidden="true">🧦</div>
+        <div>
+          <p>Pair survival rate</p>
+          <strong id="survivalRate">40%</strong>
+          <span class="trend positive">↑ 6% this month</span>
+        </div>
+      </article>
+
+      <article class="metric-card">
+        <div class="metric-icon" aria-hidden="true">🌀</div>
+        <div>
+          <p>Dryer portal risk</p>
+          <strong id="dryerRisk">25%</strong>
+          <span class="trend negative">High probability</span>
+        </div>
+      </article>
+
+      <article class="metric-card">
+        <div class="metric-icon" aria-hidden="true">🐕</div>
+        <div>
+          <p>Dog involvement</p>
+          <strong id="dogRisk">15%</strong>
+          <span class="trend neutral">Under investigation</span>
+        </div>
+      </article>
+    </aside>
+  </section>
+
+  <section class="story-card">
+    <div class="story-copy">
+      <p class="card-label">AI laundry insight</p>
+      <h2>The dryer dimension is expanding.</h2>
+      <p id="insightText">
+        Your safest strategy is pairing socks immediately after drying and
+        checking the dog's bed before declaring another sock officially lost.
+      </p>
+    </div>
+
+    <div class="machine" aria-hidden="true">
+      <div class="machine-top">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="machine-door">
+        <div class="sock-orbit">🧦</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Baked with data, crumbs and suspicious socks.</span>
+    <span id="updatedTime">Updated just now</span>
+  </footer>
+</main>
+
+<div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
