@@ -2,7 +2,7 @@
 
 An accessible, bilingual interactive data-visualization experiment created for the CodePen **Baked Charts** challenge.
 
-[Game portal](https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/portal.html) · [Live demo](https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/) · [Portfolio](https://laurandreea10.github.io/codepen-portfolio/)
+[Live portal](https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/portal.html) · [Analytics dashboard](https://laurandreea10.github.io/-CodePen-Challenge-Baked-Charts/analytics.html) · [Portfolio](https://laurandreea10.github.io/codepen-portfolio/)
 
 ## Română
 
