@@ -11,9 +11,9 @@ const text={
 const $=selector=>document.querySelector(selector);
 const $$=selector=>[...document.querySelectorAll(selector)];
 let language=localStorage.getItem("sock-portal-language")||"ro";
-let active=false,score=0,streak=0,level=1,sorted=0,time=30,targetIndex=0,timer=null,scanTimer=null,scanIndex=0,soundOn=false,scanOn=false;
+let active=false,paused=false,shield=false,score=0,streak=0,level=1,sorted=0,time=30,targetIndex=0,timer=null,scanTimer=null,scanIndex=0,soundOn=false,scanOn=false,dailyRun=false;
 const saved=()=>{try{return JSON.parse(localStorage.getItem("sock-portal-progress")||'{"best":0,"badges":[]}')}catch{return{best:0,badges:[]}}};
-let progress=saved();
+let progress=Object.assign({best:0,badges:[],xp:0,coins:0,games:0,totalSorted:0,attempts:0,correct:0,topStreak:0,daily:""},saved());
 function persist(){localStorage.setItem("sock-portal-progress",JSON.stringify(progress))}
 function tr(){return text[language]}
 function applyLanguage(){
@@ -28,20 +28,20 @@ $("#theme").addEventListener("click",()=>{const next=document.documentElement.da
 function renderBaskets(){
  const box=$("#baskets");box.replaceChildren();socks.forEach((sock,index)=>{const button=document.createElement("button");button.type="button";button.className="basket";button.dataset.index=index;button.setAttribute("aria-label",(language==="ro"?tr().drawer:tr().drawer)+" "+(index+1)+": "+sock[language]);button.innerHTML="<span style='color:"+sock.color+"'>"+sock.icon+" "+sock.symbol+"</span><strong>"+sock[language]+"</strong><small>"+tr().drawer+" "+(index+1)+"</small>";button.addEventListener("click",()=>choose(index));box.append(button)})
 }
-function duration(){return{easy:45,normal:30,hard:20}[$("#difficulty").value]}
+function duration(){if($("#gameMode").value==="zen")return 999;return{easy:45,normal:30,hard:20}[$("#difficulty").value]}
 function points(){return{easy:8,normal:12,hard:18}[$("#difficulty").value]}
 function startGame(){
  clearInterval(timer);stopScan();active=true;score=0;streak=0;level=1;sorted=0;time=duration();$("#start").textContent=tr().again;updateHud();newTarget(false);
- timer=setInterval(()=>{time--;updateHud();if(time<=0)endGame(false)},1000);if(scanOn)startScan();announce(tr().target+" "+socks[targetIndex][language])
+ if($("#gameMode").value!=="zen")timer=setInterval(()=>{if(paused)return;time--;updateHud();if(time<=0)endGame(false)},1000);if(scanOn)startScan();announce(tr().target+" "+socks[targetIndex][language])
 }
 function newTarget(announceIt=true){targetIndex=Math.floor(Math.random()*socks.length);const sock=socks[targetIndex];$("#targetSock").textContent=sock.icon+" "+sock.symbol;$("#targetSock").style.color=sock.color;$("#targetName").textContent=sock[language];if(announceIt)announce(tr().target+" "+sock[language])}
 function choose(index){
- if(!active)return;const buttons=$$(".basket");buttons.forEach(b=>b.classList.remove("correct","wrong"));
- if(index===targetIndex){streak++;sorted++;score+=points()+Math.min(streak*2,20);level=1+Math.floor(sorted/5);time+=level>1?1:0;buttons[index].classList.add("correct");$("#gameStatus").textContent=tr().correct+" +"+points();beep(660);vibrate([30]);unlock("first");if(streak>=5)unlock("streak");if(score>=250)unlock("score");if(sorted>=10){unlock("mission");endGame(true);return}newTarget()}else{streak=0;score=Math.max(0,score-5);buttons[index].classList.add("wrong");$("#gameStatus").textContent=tr().wrong;beep(180);vibrate([70,40,70])}
+ if(!active||paused)return;progress.attempts++;const buttons=$$(".basket");buttons.forEach(b=>b.classList.remove("correct","wrong"));
+ if(index===targetIndex){streak++;sorted++;progress.correct++;progress.totalSorted++;progress.topStreak=Math.max(progress.topStreak,streak);progress.coins+=2;progress.xp+=5;score+=points()+Math.min(streak*2,20);level=1+Math.floor(sorted/5);time+=level>1?1:0;buttons[index].classList.add("correct");$("#gameStatus").textContent=tr().correct+" +"+points();beep(660);vibrate([30]);unlock("first");if(streak>=5)unlock("streak");if(score>=250)unlock("score");if(sorted>=10){unlock("mission");endGame(true);return}newTarget()}else{if(shield){shield=false;$("#gameStatus").textContent=language==="ro"?"Scutul te-a protejat!":"The shield protected you!";updateMeta();return}streak=0;score=Math.max(0,score-5);buttons[index].classList.add("wrong");$("#gameStatus").textContent=tr().wrong;beep(180);vibrate([70,40,70])}
  updateHud()
 }
-function updateHud(){$("#score").textContent=score;$("#best").textContent=Math.max(progress.best,score);$("#streak").textContent=streak;$("#level").textContent=level;$("#time").textContent=time;$("#missionCount").textContent=sorted+"/10";$("#missionBar").value=Math.min(sorted,10)}
-function endGame(won){active=false;clearInterval(timer);stopScan();progress.best=Math.max(progress.best,score);persist();$("#gameStatus").textContent=(won?tr().complete:tr().over)+" "+score+" "+tr().points;$("#targetName").textContent=tr().waiting;$("#start").focus();updateHud();renderBadges();announce($("#gameStatus").textContent)}
+function updateHud(){updateMeta();$("#score").textContent=score;$("#best").textContent=Math.max(progress.best,score);$("#streak").textContent=streak;$("#level").textContent=level;$("#time").textContent=time;$("#missionCount").textContent=sorted+"/10";$("#missionBar").value=Math.min(sorted,10)}
+function endGame(won){active=false;clearInterval(timer);stopScan();progress.best=Math.max(progress.best,score);progress.games++;if(dailyRun&&sorted>=10){const today=new Date().toISOString().slice(0,10);if(progress.daily!==today){progress.daily=today;progress.xp+=50;progress.coins+=25}}dailyRun=false;persist();$("#gameStatus").textContent=(won?tr().complete:tr().over)+" "+score+" "+tr().points;$("#targetName").textContent=tr().waiting;$("#start").focus();updateHud();renderBadges();announce($("#gameStatus").textContent)}
 function unlock(id){if(!progress.badges.includes(id)){progress.badges.push(id);persist();renderBadges();announce(tr().complete)}}
 function renderBadges(){$$(".achievement-grid article").forEach(card=>card.classList.toggle("unlocked",progress.badges.includes(card.dataset.badge)));$("#best").textContent=progress.best}
 function announce(message){$("#announcer").textContent="";setTimeout(()=>$("#announcer").textContent=message,30)}
@@ -52,7 +52,20 @@ $("#sound").addEventListener("click",()=>{soundOn=!soundOn;$("#sound").setAttrib
 $("#scan").addEventListener("click",()=>{scanOn=!scanOn;$("#scan").setAttribute("aria-pressed",String(scanOn));if(scanOn&&active)startScan();else stopScan()});
 function startScan(){stopScan();scanTimer=setInterval(()=>{const buttons=$$(".basket");buttons.forEach(b=>b.classList.remove("scanning"));buttons[scanIndex%buttons.length].classList.add("scanning");buttons[scanIndex%buttons.length].focus({preventScroll:true});scanIndex++},1200)}
 function stopScan(){clearInterval(scanTimer);$$(".basket").forEach(b=>b.classList.remove("scanning"))}
-document.addEventListener("keydown",event=>{if(!active)return;if(["1","2","3","4"].includes(event.key))choose(Number(event.key)-1);if(scanOn&&(event.key===" "||event.key==="Enter")){event.preventDefault();choose((scanIndex-1+socks.length)%socks.length)}});
+document.addEventListener("keydown",event=>{if(!active||paused)return;if(["1","2","3","4"].includes(event.key))choose(Number(event.key)-1);if(scanOn&&(event.key===" "||event.key==="Enter")){event.preventDefault();choose((scanIndex-1+socks.length)%socks.length)}});
 $("#resetProgress").addEventListener("click",()=>{progress={best:0,badges:[]};persist();renderBadges();announce(tr().resetDone)});
 applyLanguage();renderBadges();updateHud();
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+
+const moreText={ro:{profile:"Profil de sortare",rank:"Rang",coins:"Monede",tutorial:"Tutorial",mode:"Mod",classic:"Clasic",timeAttack:"Contra timp",zen:"Zen",pause:"Pauză",resume:"Continuă",freeze:"Îngheață timpul",hint:"Arată răspunsul",shield:"Protecție",daily:"Provocarea zilei",dailyTitle:"Daily Drawer Rescue",dailyStart:"Începe provocarea",career:"Carieră",stats:"Statistici permanente",games:"Jocuri",sorted:"Șosete sortate",accuracy:"Acuratețe",topStreak:"Cel mai bun streak",how:"Cum se joacă",step1:"Privește culoarea și simbolul șosetei.",step2:"Alege sertarul identic folosind touch, mouse sau tastele 1–4.",step3:"Construiește un streak pentru bonusuri și câștigă monede.",step4:"Folosește power-up-uri când portalul devine prea rapid."},en:{profile:"Sorting profile",rank:"Rank",coins:"Coins",tutorial:"Tutorial",mode:"Mode",classic:"Classic",timeAttack:"Time attack",zen:"Zen",pause:"Pause",resume:"Resume",freeze:"Freeze time",hint:"Show answer",shield:"Shield",daily:"Daily challenge",dailyTitle:"Daily Drawer Rescue",dailyStart:"Start challenge",career:"Career",stats:"Lifetime statistics",games:"Games",sorted:"Socks sorted",accuracy:"Accuracy",topStreak:"Best streak",how:"How to play",step1:"Look at the sock color and symbol.",step2:"Choose the matching drawer with touch, mouse or keys 1–4.",step3:"Build a streak for bonuses and earn coins.",step4:"Use power-ups when the portal becomes too fast."}};
+const baseApplyLanguage=applyLanguage;applyLanguage=function(){baseApplyLanguage();$$("[data-x]").forEach(el=>{const value=moreText[language][el.dataset.x];if(value)el.textContent=value});$("#pause span:last-child").textContent=paused?moreText[language].resume:moreText[language].pause;updateMeta()};
+function rankInfo(){const level=Math.floor(progress.xp/100);return[{ro:"Începător",en:"Beginner"},{ro:"Sortator",en:"Sorter"},{ro:"Detectiv",en:"Detective"},{ro:"Maestru de portal",en:"Portal Master"}][Math.min(level,3)]}
+function updateMeta(){if(!$("#coins"))return;$("#coins").textContent=progress.coins;$("#xpValue").textContent=progress.xp;$("#xpBar").value=progress.xp%100;$("#rankName").textContent=rankInfo()[language];$("#gamesPlayed").textContent=progress.games;$("#totalSorted").textContent=progress.totalSorted;$("#accuracy").textContent=(progress.attempts?Math.round(progress.correct/progress.attempts*100):0)+"%";$("#topStreak").textContent=progress.topStreak;$$("[data-power]").forEach(button=>{const cost={freeze:10,hint:6,shield:8}[button.dataset.power];button.disabled=!active||progress.coins<cost})}
+function buyPower(type){const cost={freeze:10,hint:6,shield:8}[type];if(!active||progress.coins<cost)return;progress.coins-=cost;if(type==="freeze"){time+=8;$("#gameStatus").textContent=language==="ro"?"Timp bonus: +8 secunde":"Time bonus: +8 seconds"}if(type==="hint"){$$(".basket")[targetIndex]?.classList.add("hint-active");setTimeout(()=>$$(".basket").forEach(b=>b.classList.remove("hint-active")),1800)}if(type==="shield"){shield=true;$("#gameStatus").textContent=language==="ro"?"Scut activat":"Shield activated"}persist();updateMeta();vibrate([25])}
+$$("[data-power]").forEach(button=>button.addEventListener("click",()=>buyPower(button.dataset.power)));
+$("#pause").addEventListener("click",()=>{if(!active)return;paused=!paused;$("#pause").setAttribute("aria-pressed",String(paused));$("#pause span:last-child").textContent=paused?moreText[language].resume:moreText[language].pause;$("#playfield").classList.toggle("paused",paused);if(paused)stopScan();else if(scanOn)startScan()});
+$("#tutorialButton").addEventListener("click",()=>$("#tutorialDialog").showModal());$("#closeTutorial").addEventListener("click",()=>$("#tutorialDialog").close());$("#tutorialPlay").addEventListener("click",()=>{$("#tutorialDialog").close();$("#game").scrollIntoView();$("#start").focus()});
+$("#dailyButton").addEventListener("click",()=>{dailyRun=true;$("#gameMode").value="time";$("#difficulty").value="normal";startGame();$("#game").scrollIntoView()});
+const baseStartGame=startGame;startGame=function(){paused=false;shield=false;$("#playfield").classList.remove("paused");baseStartGame();updateMeta()};
+const baseReset=$("#resetProgress").onclick;
+applyLanguage();updateMeta();
