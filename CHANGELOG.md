@@ -9,6 +9,9 @@ All notable changes to **Sockspiracy** are documented here.
 - Accessible game with difficulty modes, levels, streak, missions and local high score.
 - Keyboard, touch, haptic, sound and automatic switch-scanning controls.
 - Persistent achievements and progress center.
+- Classic, Time Attack and Zen modes.
+- XP ranks, coins, freeze/hint/shield power-ups and pause/resume.
+- Daily challenge, tutorial and lifetime career statistics.
 - Romanian and English interfaces with persistent language preference.
 - Separately indexable English page and reciprocal hreflang metadata.
 - Light, dark, high-contrast, large-text and reduced-motion modes.
