@@ -397,3 +397,57 @@ motionButton.addEventListener("click",()=>preference(motionButton,"reduce-motion
 document.querySelector("#resetAccessibility").addEventListener("click",()=>{[["sockspiracy-contrast","high-contrast",contrastButton],["sockspiracy-font","large-text",fontButton],["sockspiracy-motion","reduce-motion",motionButton]].forEach(([key,cls,button])=>{localStorage.removeItem(key);document.documentElement.classList.remove(cls);button.setAttribute("aria-pressed","false")});settingsAnnouncement.textContent=i18n[currentLanguage].reset});
 updateInsight=function(){const d=i18n[currentLanguage];const values=reports[currentRange].values;const highest=Math.max(...values.slice(1));const index=values.indexOf(highest);const category=categories[index];insightTitle.textContent=category.name+" "+d.leads;insightText.textContent=category.description+". "+d.accounts+" "+highest+"% "+d.recommend;confidence.textContent=Math.min(99,65+highest)+"% "+d.suspicious};
 applyLanguage(currentLanguage);
+
+let chartType="donut";
+const originalRenderChart=renderChart;
+renderChart=function(){originalRenderChart();renderDataExtensions()};
+function safeStorage(action,key,value){try{if(action==="get")return localStorage.getItem(key);if(action==="set")localStorage.setItem(key,value)}catch(error){return null}}
+function renderDataExtensions(){
+ const report=reports[currentRange],d=i18n[currentLanguage];
+ renderDataForm(report);renderDataTable(report);renderBars(report);
+ document.querySelector(".pie").classList.toggle("visually-hidden-chart",chartType==="bar");
+ document.querySelector(".center-label").hidden=chartType!=="donut";
+ document.querySelector(".pie-center").setAttribute("r",chartType==="pie"?"0":"17");
+ bindArrowNavigation();
+}
+function renderDataForm(report){
+ const box=document.querySelector("#dataInputs");if(!box)return;box.replaceChildren();
+ report.values.forEach((value,index)=>{const row=document.createElement("label");row.className="data-field";row.innerHTML="<span>"+categories[index].icon+" <span class='field-name'>"+categories[index].name+"</span></span><input type='number' min='0' max='100' step='1' value='"+value+"' data-value-index='"+index+"' aria-label='"+categories[index].name+" percentage'>";box.append(row)});
+ updateTotalStatus();
+ box.querySelectorAll("input").forEach(input=>input.addEventListener("input",updateTotalStatus));
+}
+function updateTotalStatus(){
+ const inputs=[...document.querySelectorAll("[data-value-index]")],total=inputs.reduce((sum,input)=>sum+(Number(input.value)||0),0),status=document.querySelector("#totalStatus");
+ if(!status)return;status.textContent="Total: "+total+"%";status.classList.toggle("invalid",total!==100);
+}
+function renderDataTable(report){
+ const body=document.querySelector("#dataTableBody");if(!body)return;body.replaceChildren();
+ report.values.forEach((value,index)=>{const row=document.createElement("tr");row.innerHTML="<th scope='row'>"+categories[index].icon+" "+categories[index].name+"</th><td>"+value+"%</td><td>"+Math.round(value/100*report.total)+"</td>";body.append(row)});
+}
+function renderBars(report){
+ let bars=document.querySelector(".bar-chart");
+ if(!bars){bars=document.createElement("div");bars.className="bar-chart";document.querySelector(".chart-wrap").append(bars)}
+ bars.hidden=chartType!=="bar";bars.replaceChildren();
+ report.values.forEach((value,index)=>{const bar=document.createElement("div");bar.className="bar-item";bar.innerHTML="<span class='bar-value'>"+value+"%</span><span class='bar-fill' style='--bar:"+value+"%;--bar-color:"+categories[index].color+"'></span><small>"+categories[index].name+"</small>";bars.append(bar)});
+}
+document.querySelector("#dataForm")?.addEventListener("submit",event=>{
+ event.preventDefault();const inputs=[...document.querySelectorAll("[data-value-index]")],values=inputs.map(input=>Number(input.value)||0);
+ if(values.reduce((sum,value)=>sum+value,0)!==100){document.querySelector("#totalStatus").focus();announcement.textContent=currentLanguage==="ro"?"Totalul trebuie să fie exact 100%.":"The total must be exactly 100%.";return}
+ reports[currentRange].values=values;saveHistory(values);selectedCategory=null;renderChart()
+});
+document.querySelectorAll(".chart-type-button").forEach(button=>button.addEventListener("click",()=>{
+ chartType=button.dataset.chartType;document.querySelectorAll(".chart-type-button").forEach(item=>{const active=item===button;item.classList.toggle("active",active);item.setAttribute("aria-pressed",String(active))});renderDataExtensions()
+}));
+function downloadText(name,type,content){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),link=document.createElement("a");link.href=url;link.download=name;link.click();setTimeout(()=>URL.revokeObjectURL(url),500)}
+document.querySelector("#exportCsv")?.addEventListener("click",()=>{const report=reports[currentRange],rows=[["category","percentage","estimated"]];report.values.forEach((value,index)=>rows.push([categories[index].name,value,Math.round(value/100*report.total)]));downloadText("sockspiracy-report.csv","text/csv;charset=utf-8",rows.map(row=>row.map(cell=>'"'+String(cell).replaceAll('"','""')+'"').join(",")).join("\n"))});
+document.querySelector("#exportJson")?.addEventListener("click",()=>{const report=reports[currentRange];downloadText("sockspiracy-report.json","application/json",JSON.stringify({period:report.title,total:report.total,data:report.values.map((value,index)=>({category:categories[index].name,percentage:value}))},null,2))});
+function svgSource(){const svg=document.querySelector(".pie").cloneNode(true);svg.setAttribute("xmlns","http://www.w3.org/2000/svg");return new XMLSerializer().serializeToString(svg)}
+document.querySelector("#exportSvg")?.addEventListener("click",()=>downloadText("sockspiracy-chart.svg","image/svg+xml",svgSource()));
+document.querySelector("#exportPng")?.addEventListener("click",()=>{const source=svgSource(),blob=new Blob([source],{type:"image/svg+xml"}),url=URL.createObjectURL(blob),image=new Image();image.onload=()=>{const canvas=document.createElement("canvas");canvas.width=1200;canvas.height=1200;const context=canvas.getContext("2d");context.fillStyle=getComputedStyle(document.documentElement).getPropertyValue("--surface-solid").trim()||"#fffaf3";context.fillRect(0,0,1200,1200);context.drawImage(image,0,0,1200,1200);URL.revokeObjectURL(url);canvas.toBlob(file=>{const link=document.createElement("a");link.href=URL.createObjectURL(file);link.download="sockspiracy-chart.png";link.click();setTimeout(()=>URL.revokeObjectURL(link.href),500)},"image/png")};image.src=url});
+document.querySelector("#shareReport")?.addEventListener("click",async()=>{const report=reports[currentRange],text=categories.map((category,index)=>category.name+": "+report.values[index]+"%").join(" · ");try{if(navigator.share)await navigator.share({title:"Sockspiracy",text,url:location.href});else await navigator.clipboard.writeText(location.href+"\n"+text);announcement.textContent=currentLanguage==="ro"?"Raport pregătit pentru partajare.":"Report ready to share."}catch(error){}});
+function saveHistory(values){const history=JSON.parse(safeStorage("get","sockspiracy-history")||"[]");history.unshift({date:new Date().toISOString(),range:currentRange,values});safeStorage("set","sockspiracy-history",JSON.stringify(history.slice(0,5)));renderHistory()}
+function renderHistory(){const list=document.querySelector("#reportHistory");if(!list)return;const history=JSON.parse(safeStorage("get","sockspiracy-history")||"[]");list.replaceChildren();if(!history.length){const item=document.createElement("li");item.textContent=currentLanguage==="ro"?"Niciun raport salvat încă.":"No saved reports yet.";list.append(item);return}history.forEach(entry=>{const item=document.createElement("li"),button=document.createElement("button");button.type="button";button.className="history-button";button.textContent=new Date(entry.date).toLocaleString(currentLanguage==="ro"?"ro-RO":"en-GB")+" · "+entry.values.join("% / ")+"%";button.addEventListener("click",()=>{currentRange=entry.range;reports[currentRange].values=entry.values;renderChart()});item.append(button);list.append(item)})}
+function bindArrowNavigation(){const items=[...document.querySelectorAll("#legend [role='button']")];items.forEach((item,index)=>item.addEventListener("keydown",event=>{if(!["ArrowDown","ArrowRight","ArrowUp","ArrowLeft"].includes(event.key))return;event.preventDefault();const step=["ArrowDown","ArrowRight"].includes(event.key)?1:-1;items[(index+step+items.length)%items.length].focus()}))}
+const oldApplyLanguage=applyLanguage;
+applyLanguage=function(language){oldApplyLanguage(language);const ro=language==="ro";setText("#studioLabel",ro?"Laborator de date":"Data studio");setText("#studioTitle",ro?"Personalizează raportul":"Customize the report");setText("#applyData",ro?"Aplică datele":"Apply data");setText("#shareReport",ro?"Partajează":"Share");setText("#historyTitle",ro?"Istoric local":"Local history");setText("#tableLabel",ro?"Alternativă accesibilă":"Accessible alternative");setText("#tableTitle",ro?"Datele graficului în format tabelar":"Chart data as a table");setText("#categoryHeader",ro?"Categorie":"Category");setText("#percentHeader",ro?"Procent":"Percentage");setText("#amountHeader",ro?"Număr estimat":"Estimated count");renderDataExtensions();renderHistory()};
+applyLanguage(currentLanguage);renderHistory();
