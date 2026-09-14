@@ -21,7 +21,14 @@ An accessible, bilingual interactive data-visualization experiment created for t
 - anunțuri pentru cititoarele de ecran;
 - design responsive;
 - metadate SEO, Open Graph și JSON-LD;
-- sitemap și robots.txt.
+- sitemap și robots.txt;
+- editor de date cu validare 100%;
+- vizualizări donut, pie și bar;
+- export CSV, JSON, SVG și PNG;
+- partajare și istoric local;
+- tabel accesibil și navigare cu săgeți;
+- pagină engleză indexabilă separat;
+- funcționare offline ca PWA.
 
 ## English
 
