@@ -337,7 +337,7 @@ const categories = [
           newTheme === "dark" ? "☀️" : "🌙";
 
         themeButton.querySelector(".theme-text").textContent =
-          newTheme === "dark" ? "Light mode" : "Dark mode";
+          newTheme === "dark" ? i18n[currentLanguage].themeLight : i18n[currentLanguage].themeDark;
       });
 
       const savedTheme = localStorage.getItem("sockspiracy-theme");
@@ -367,7 +367,7 @@ const settingsAnnouncement=document.querySelector("#settingsAnnouncement");
 function setText(selector,value){const element=document.querySelector(selector);if(element)element.textContent=value}
 function applyLanguage(language){
  currentLanguage=language;const d=i18n[language];document.documentElement.lang=language;document.title=d.title;
- setText(".eyebrow",d.challenge);setText(".hero h1",d.hero1);let hero=document.querySelector(".hero h1 span");if(hero)hero.textContent=d.hero2;
+ setText(".eyebrow",d.challenge);const heroHeading=document.querySelector(".hero h1");if(heroHeading)heroHeading.innerHTML=d.hero1+"<span>"+d.hero2+"</span>";
  setText(".intro",d.intro);setText(".status",d.status);
  const rangeButtons=document.querySelectorAll(".range-button");[d.week,d.month,d.year].forEach((v,i)=>{if(rangeButtons[i])rangeButtons[i].textContent=v});
  const bakeText=document.querySelector("#bakeButton");if(bakeText)bakeText.lastChild.textContent=" "+d.bake;
@@ -395,4 +395,5 @@ fontButton.addEventListener("click",()=>preference(fontButton,"large-text","sock
 motionButton.addEventListener("click",()=>preference(motionButton,"reduce-motion","sockspiracy-motion"));
 [["sockspiracy-contrast","high-contrast",contrastButton],["sockspiracy-font","large-text",fontButton],["sockspiracy-motion","reduce-motion",motionButton]].forEach(([key,cls,button])=>{const on=localStorage.getItem(key)==="true";document.documentElement.classList.toggle(cls,on);button.setAttribute("aria-pressed",String(on))});
 document.querySelector("#resetAccessibility").addEventListener("click",()=>{[["sockspiracy-contrast","high-contrast",contrastButton],["sockspiracy-font","large-text",fontButton],["sockspiracy-motion","reduce-motion",motionButton]].forEach(([key,cls,button])=>{localStorage.removeItem(key);document.documentElement.classList.remove(cls);button.setAttribute("aria-pressed","false")});settingsAnnouncement.textContent=i18n[currentLanguage].reset});
+updateInsight=function(){const d=i18n[currentLanguage];const values=reports[currentRange].values;const highest=Math.max(...values.slice(1));const index=values.indexOf(highest);const category=categories[index];insightTitle.textContent=category.name+" "+d.leads;insightText.textContent=category.description+". "+d.accounts+" "+highest+"% "+d.recommend;confidence.textContent=Math.min(99,65+highest)+"% "+d.suspicious};
 applyLanguage(currentLanguage);
